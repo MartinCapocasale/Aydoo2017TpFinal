@@ -1,12 +1,12 @@
 require 'sinatra'
 require_relative './model/archivo.rb'
 
-get '/calendario' do
-  parametros = params[:x]
-  if parametros.match(/^(\d)+$/)
-    nombre_de_calendario = parametros.to_i
+get '/calendario/:nombre_calendario' do
+  parametros = params[:nombre_calendario]
+  if (!parametros.nil?)
+    nombre_calendario = parametros
     archivo = Archivo.new
-    texto_a_mostrar = archivo.leer(nombre_de_calendario)
+    texto_a_mostrar = archivo.leer(nombre_calendario)
     body texto_a_mostrar
   else
     status 400
