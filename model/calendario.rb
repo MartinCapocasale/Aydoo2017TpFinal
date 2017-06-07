@@ -1,10 +1,7 @@
-require_relative '../model/evento'
-
 class Calendario
-	
-
+=begin
 	def initialize(evento)
 		evento = Array.new
-  
-
+	end
+=end
 end

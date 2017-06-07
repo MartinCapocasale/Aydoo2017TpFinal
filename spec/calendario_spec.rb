@@ -1,9 +1,12 @@
 require 'rspec' 
 require_relative '../model/calendario'
 
-describe 'Calendario'
+describe 'Calendario' do
 
-	let(:calendario) [Calendario.new]
+	let (:calendario) {Calendario.new}
 
+	it 'prueba1' do
+		
+	end
 
 end

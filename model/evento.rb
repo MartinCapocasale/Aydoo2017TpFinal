@@ -1,5 +1,5 @@
 class Evento
-
+=begin
 	attr_accessor :iD
 	attr_accessor :nombre
 	attr_accessor :anio
@@ -16,8 +16,6 @@ class Evento
        self.dia = dia
        self.horaInicio = horaInicio
        self.HoraFin = HoraFin
-
     end
-       
-
+=end       
 end

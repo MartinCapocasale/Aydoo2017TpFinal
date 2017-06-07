@@ -1,8 +1,20 @@
 require 'sinatra'
-require_relative './model/calendario'
-require_relative './model/evento'
+require_relative './model/archivo.rb'
 
+get '/calendario' do
+  parametros = params[:x]
+  if parametros.match(/^(\d)+$/)
+    nombre_de_calendario = parametros.to_i
+    archivo = Archivo.new
+    texto_a_mostrar = archivo.leer(nombre_de_calendario)
+    body texto_a_mostrar
+  else
+    status 400
+    body "400 Bad Request"
+  end
+end
 
+=begin
 post'/calendarios' do
 	{
   	"nombre":"calendario1" 
@@ -77,5 +89,6 @@ end
 get '/eventos/ID' do
 
 end
+=end
 
 end
