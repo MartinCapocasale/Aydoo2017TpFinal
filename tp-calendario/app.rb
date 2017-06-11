@@ -1,18 +1,57 @@
 require 'sinatra'
+require 'json'
 require_relative './model/archivo.rb'
 
-get '/calendario/:nombre_calendario' do
-  parametros = params[:nombre_calendario]
-  if (!parametros.nil?)
-    nombre_calendario = parametros
+post '/calendarios' do
+  params = JSON.parse(request.body.read) unless params.nil?
+  #body "Muestro el JSON: #{params['nombre'].inspect}"
+  if (!params.nil?)
+    nombre_calendario = params['nombre']
     archivo = Archivo.new
+    archivo.crear_y_escribir(nombre_calendario,'nuevo')
     texto_a_mostrar = archivo.leer(nombre_calendario)
+    status 200
     body texto_a_mostrar
   else
     status 400
     body "400 Bad Request"
   end
 end
+
+get '/calendarios' do
+  params = JSON.parse(request.body.read) unless params.nil?
+  if (!params.nil?)
+    nombre_calendario = params['nombre']
+    archivo = Archivo.new
+    texto_a_mostrar = archivo.leer(nombre_calendario)
+    status 200
+    body texto_a_mostrar
+  else
+    status 400
+    body "400 Bad Request"
+  end
+end
+
+=begin
+get '/calendario/:nombre_calendario' do
+  parametros = params[:nombre_calendario]
+  if (!parametros.nil?)
+    nombre_calendario = parametros
+    archivo = Archivo.new
+    texto_a_mostrar = archivo.leer(nombre_calendario)
+    status 200
+    body texto_a_mostrar
+  else
+    status 400
+    body "400 Bad Request"
+  end
+end
+
+post '/calendarios' do
+  push = JSON.parse(request.body.read)
+  body "Muestro el JSON: #{push.inspect}"
+end
+=end
 
 =begin
 post'/calendarios' do
