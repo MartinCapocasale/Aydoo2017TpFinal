@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 ruby '2.2.0'
 
@@ -8,5 +8,3 @@ gem 'guard'
 gem 'guard-rspec'
 gem 'rb-readline'
 gem 'sinatra', "1.4.7"
-gem 'rack'
-gem 'rack-test'
