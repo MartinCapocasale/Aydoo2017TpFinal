@@ -1,27 +1,23 @@
-require_relative './model/calendario'
-
 class Evento
-	attr_reader : nombre
-	attr_reader : id
-	attr_accessor : incio
-	attr_accessor : fin
-	attr_accessor : incio
-	attr_accessor : calendario
-	attr_accessor : recurrencia
+	attr_reader :nombre
+	attr_reader :id
+	attr_accessor :incio
+	attr_accessor :fin
+	attr_accessor :incio
+	attr_accessor :recurrencia
 
 
-	def initialize (calendario, id, nombre, inicio, fin, recurrencia)
-		validar_duracion(inicio, fin)
+	def initialize(id, nombre, inicio, fin, recurrencia)
 		@incio = incio
+		@nombre = nombre
 		@fin = fin
-		@calendario = calendario
 		@id = id
 		@recurrencia = recurrencia
 	end
 
-	def validar_duracion(inicio , fin)
-		
-	end
+	def validar_tiempo(inicio, fin)
+
+	end	
 
 
 end	
