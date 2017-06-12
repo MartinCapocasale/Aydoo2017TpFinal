@@ -1,3 +1,5 @@
+#require_relative '.model/exception_validacion_de_duracion'
+
 class Evento
 	attr_reader :nombre
 	attr_reader :id
@@ -8,6 +10,7 @@ class Evento
 
 
 	def initialize(id, nombre, inicio, fin, recurrencia)
+		#validar_Tiempo_De_Duracion(inicio, fin)
 		@incio = incio
 		@nombre = nombre
 		@fin = fin
@@ -15,9 +18,20 @@ class Evento
 		@recurrencia = recurrencia
 	end
 
-	def validar_tiempo(inicio, fin)
 
-	end	
+	def validar_Tiempo_De_Duracion(inicio, fin)
+		intervalo = (fin - inicio)
+    	raise ExceptionValidacionDeDuracion if fin < inicio
+
+    	if(intervalo <=72)
+    	end	
+  	end
+
+
+	def actualizarEvento(inicioNuevo, finNuevo)
+		@inicio = inicioNuevo
+		@fin = finNuevo
+	end
 
 
 end	
