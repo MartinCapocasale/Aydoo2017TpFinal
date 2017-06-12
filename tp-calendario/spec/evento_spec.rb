@@ -5,7 +5,7 @@ require_relative '../model/evento'
 describe 'Evento' do 
 
 	before do
-    	@evento = Evento.new "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO"
+    	@evento = Evento.new "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO", "CalendarioDeTrabajo"
   	end
 
 
@@ -39,6 +39,13 @@ describe 'Evento' do
 	it  'es posible crear un evento con fin 2017-04-20T16:00:00-03:00 ' do
 	valor_esperado = "2017-04-20T16:00:00-03:00"
   	valor_obtenido = @evento.fin
+	expect(valor_obtenido).to eq(valor_esperado)
+	
+	end	
+
+	it  'es posible crear un evento en el CalendarioDeTrabajo ' do
+	valor_esperado = "CalendarioDeTrabajo"
+  	valor_obtenido = @evento.nombre_calendario
 	expect(valor_obtenido).to eq(valor_esperado)
 	
 	end	
