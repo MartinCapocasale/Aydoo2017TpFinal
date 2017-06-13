@@ -24,5 +24,12 @@ class Evento
 		@fin = finNuevo
 	end
 
+	def setInicio(incio)
+		@inicio = inicio
+	end
+
+	def setFin(fin)
+		@fin = fin
+	end	
 
 end	
