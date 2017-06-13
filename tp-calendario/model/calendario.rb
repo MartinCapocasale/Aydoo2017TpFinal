@@ -1,3 +1,5 @@
+require_relative './evento'
+
 class Calendario
 
 	attr_accessor :evento
@@ -5,17 +7,31 @@ class Calendario
 
 	def initialize(nombre)
 		self.nombre = nombre
-		evento = Array.new
+		@evento = Array.new
 	end
 
-	def agregarEventoAlCalendario(unEvento)
-		self.evento.push unEvento
+	def agregarEventoAlCalendario(id)
+		@evento.push(id)
 	end
 
-=begin
-	def getEventos(iD)
-		return 
+	def eliminarEventoDelCalendario(id)
+		@evento.delete(id)
+	end
+		
+	def getEvento(id)
+		return @evento.key(id)
 
 	end	
-=end
+
+	def getTodosLosEventos()
+		return @evento.values
+
+	end
+
+	def actualizarEvento(id, inicio, fin)
+		@evento.getEvento(id)
+		@evento.actualizarEvento(inicio, fin)
+	end
+
+
 end
