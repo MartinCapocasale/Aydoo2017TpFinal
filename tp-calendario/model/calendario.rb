@@ -1,4 +1,4 @@
-require_relative '../model/evento'
+require_relative './evento'
 
 class Calendario
 

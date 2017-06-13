@@ -20,6 +20,7 @@ class Evento
 	end
 
 	def actualizarEvento(inicioNuevo, finNuevo)
+		ValidacionDeDuracion.new(inicioNuevo, finNuevo)
 		@inicio = inicioNuevo
 		@fin = finNuevo
 	end
