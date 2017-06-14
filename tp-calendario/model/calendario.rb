@@ -24,6 +24,7 @@ class Calendario
 	end
 
 	def agregarEventoAlCalendario(nuevo_evento)
+		validar_unico_evento_del_calendario(nuevo_evento.id)
 		@evento[nuevo_evento.id] = nuevo_evento
 	end
 		
@@ -46,8 +47,8 @@ class Calendario
 		@evento.actualizarEvento(inicio, fin)
 	end
 
-	def unico_evento_del_calendario(id)
-		raise ExceptionUnicoEvento if @evento[id] == evento.id
+	def validar_unico_evento_del_calendario(id)
+		raise ExceptionUnicoEvento if @evento[id] == id
 
 	end	
 end
