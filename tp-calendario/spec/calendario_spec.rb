@@ -7,7 +7,7 @@ require_relative '../model/evento'
 describe 'Calendario' do
 
 	let (:calendario) {Calendario.new('CalendarioDeExamenes')}
-	let (:validador) {Validacion_de_duracion.new()}
+	
 
 	it 'Creo un calendario de examenes ' do
 		expect(calendario.nombre).to eq 'CalendarioDeExamenes'
