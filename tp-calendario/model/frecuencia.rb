@@ -7,7 +7,7 @@ class Frecuencia
 	attr_reader :frecuencia
 	
 
-	def initialize(frecuencia, fin)
+	def initialize(frecuencia)
    	 	@frecuencia = frecuencia
     	
  	end

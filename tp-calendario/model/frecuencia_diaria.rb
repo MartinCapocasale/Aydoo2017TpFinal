@@ -1,7 +1,10 @@
 require_relative '../model/frecuencia'
 
 class FrecuenciaDiaria < Frecuencia
-  	def initialize
-   		 @frecuencia = 1
+	
+	DIA = 1  	
+
+  	def initialize()
+   		 @frecuencia = DIA
 	end
 end	
