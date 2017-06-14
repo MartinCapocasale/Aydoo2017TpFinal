@@ -1,7 +1,7 @@
 require 'rspec' 
 require_relative '../model/calendario'
 require_relative '../model/evento'
-require_relative '../model/validacion_de_duracion'
+
 
 describe 'Calendario' do
 
