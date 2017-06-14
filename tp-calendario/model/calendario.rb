@@ -1,5 +1,5 @@
 require_relative './evento'
-
+require_relative './validacion_de_nombre_calendario'
 
 class Calendario
 
@@ -7,6 +7,7 @@ class Calendario
 	attr_accessor :nombre
 
 	def initialize(nombre)
+		ValidacionDeNombreCalendario.new(nombre)
 		@nombre = nombre
 		@evento = {}
 	end
