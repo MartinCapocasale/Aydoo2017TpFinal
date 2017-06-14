@@ -34,7 +34,7 @@ class Calendario
 	end
 		
 	def getEvento(id)
-		return @evento[id]
+		return @evento[id] == id
 
 	end	
 
@@ -42,6 +42,7 @@ class Calendario
 		return @evento.size()
 
 	end
+
 
 	def actualizarEvento(id, inicio, fin)
 		@evento.getEvento(id)
