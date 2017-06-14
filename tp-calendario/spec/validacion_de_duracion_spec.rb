@@ -1,6 +1,7 @@
 require 'rspec'
 require_relative '../model/validacion_de_duracion'
 require_relative '../model/evento'
+require 'date'
 
 
 describe 'Validacion_de_duracion' do 
@@ -13,8 +14,5 @@ describe 'Validacion_de_duracion' do
   		expect{ValidacionDeDuracion.new "2017-01-28T19:00:00-03:00", "2017-01-31T18:00:00-03:00"}.to raise_error(ExceptionValidacionDeDuracion)
 	end
 
-	it 'es posible validar un evento de menos de 72 horas' do
-  		expect{Evento.new "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO", "CalendarioDeTrabajo"}
-	end
 
 end	
