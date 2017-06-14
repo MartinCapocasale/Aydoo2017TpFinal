@@ -25,12 +25,14 @@ class Evento
 		@fin = finNuevo
 	end
 
-	def setInicio(incio)
-		@inicio = inicio
+	def setInicio(inicioNuevo)
+		ValidacionDeDuracion.new(inicioNuevo, @fin)
+		@inicio = inicioNuevo
 	end
 
-	def setFin(fin)
-		@fin = fin
+	def setFin(finNuevo)
+		ValidacionDeDuracion.new(@inicio, finNuevo)
+		@fin = finNuevo
 	end	
 
 end	
