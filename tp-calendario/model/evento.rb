@@ -20,12 +20,11 @@ class Evento
 		@fin = fin
 		@recurrencia = recurrencia
 		@nuevo_evento = Array.new
-		@nuevo_evento = [@id, @nombre, @inicio, @fin]
-		#return nuevo_evento
+		@json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
 	end
 
 	def mostrar_contenido()
-		return nuevo_evento
+		return JSON[@json_del_evento]
 	end
 
 	def actualizarEvento(inicioNuevo, finNuevo)

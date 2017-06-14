@@ -5,7 +5,6 @@ class Archivo
 		f = File.open(nombre_de_archivo, "a") { |f|
 		  f.puts(texto_a_escribir)
 		}
-		#f.close
 	  end
 	end
 
@@ -20,7 +19,6 @@ class Archivo
 	    f = File.open(nombre_de_archivo, "w") { |f|
 	  	  f.puts(texto_a_escribir)
 	    }
-	    #f.close
 	  end    
 	end
 
@@ -60,7 +58,6 @@ class Archivo
 		  if (linea_sin_new_line != contenido_a_eliminar)
 		  	contenido += line
 		  end
-		  # unless line.chomp = "calendario4"
 		}
 		f.close
 	  end
@@ -70,6 +67,5 @@ class Archivo
 	  	}
 	  end
 	end
-
 
 end

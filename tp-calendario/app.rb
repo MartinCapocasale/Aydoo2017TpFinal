@@ -4,31 +4,36 @@ require_relative './model/archivo.rb'
 require_relative './model/evento.rb'
 
 post '/calendarios' do
+  #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read)
+  #nombre de archivo que tiene la lista de calendarios
   nombre_archivo_lista_calendarios = 'lista_de_calendarios'
+  #tomo de parametros ingresados el nombre del calendario a crear
+  nombre_calendario_a_crear = params['nombre']
+  #creo un nuevo objeto archivo que voy a utilizar
   calendario_nuevo = Archivo.new
-  ##body "Muestro el JSON: #{params['nombre'].inspect}"
-  if (!params.nil? && !calendario_nuevo.verificar_si_existe(nombre_archivo_lista_calendarios, params['nombre']))
-    nombre_calendario_a_crear = params['nombre']
+  #creo un nuevo objeto archivo que voy a utilizar
+  lista_de_calendarios = Archivo.new
+  #si existen los parametros pasados por usuario y si no existe ya el calendario en la lista
+  if (!params.nil? && !calendario_nuevo.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_crear))
     #agrego nuevo calendario dentro de la lista de calendarios
-    lista_de_calendarios = Archivo.new
     lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
     #creo el nuevo archivo con el nuevo nombre recibido por json
-    calendario_nuevo.crear_y_escribir(nombre_calendario_a_crear,' ')
-    ##texto_a_mostrar = archivo.leer(nombre_calendario)
+    calendario_nuevo.crear_y_escribir(nombre_calendario_a_crear,'')
+    #devuelvo status
     status 201
-    #body "ok"
   else
+    #devuelvo status
     status 400
-    #body "nooo"
   end
 end
 
 get '/calendarios' do
-    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
+    #nombre de archivo que tiene la lista de calendarios
     nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
     lista_de_calendarios = Archivo.new
     texto_a_mostrar = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
+    #devuelvo status
     status 200
     #muestra lista de calendarios
     body texto_a_mostrar
@@ -42,155 +47,29 @@ delete '/calendarios/:nombre' do
     actualizar_lista_calendarios = Archivo.new
     nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
     actualizar_lista_calendarios.busca_contenido_y_elimina(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar)
+    #devuelvo status
     status 200
   else
+    #devuelvo status
     status 400
-    ##body "400 Bad Request"
   end
 end
 
 
 post '/eventos' do
   params = JSON.parse(request.body.read)
-  ##body "Muestro el JSON: #{params['nombre'].inspect}"
   if (!params.nil?)
-    #crea el evento con los parametros de json
+    #creo nuevo evento con los parametros de json
     nuevo_evento = Evento.new params['calendario'],params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
+    #guardo el nombre del calendario donde se quiere crear el evento
+    nombre_calendario_a_crear = params['calendario']
     archivo = Archivo.new
     #abre el archivo calendario con el nombre recibido por json
-    archivo.escribir(nombre_calendario_a_crear,nuevo_evento)
+    archivo.escribir(nombre_calendario_a_crear,nuevo_evento.mostrar_contenido())
+    #devuelvo status
     status 200
-    body nuevo_evento.mostrar_contenido()
   else
+    #devuelvo status
     status 400
-    ##body "400 Bad Request"
   end
 end
-
-=begin    
-    nombre_calendario_a_crear = params['nombre']
-    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
-    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
-    lista_de_calendarios = Archivo.new
-    #agrego nuevo calendario dentro de la lista de calendarios
-    lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
-    archivo = Archivo.new
-    #creo el nuevo archivo con el nuevo nombre recibido por json
-    archivo.crear_y_escribir(nombre_calendario_a_crear,'nuevo')
-    ##texto_a_mostrar = archivo.leer(nombre_calendario)
-    status 201
-=end
-
-=begin
-get '/calendarios' do
-  params = JSON.parse(request.body.read)["mensajes"]
-  if (!params.nil?)
-    nombre_calendario = params['nombre']
-    archivo = Archivo.new
-    texto_a_mostrar = archivo.leer(nombre_calendario)
-    status 200
-    body texto_a_mostrar
-  else
-    status 400
-    body "400 Bad Request"
-  end
-end
-=end
-
-=begin
-get '/calendario/:nombre_calendario' do
-  parametros = params[:nombre_calendario]
-  if (!parametros.nil?)
-    nombre_calendario = parametros
-    archivo = Archivo.new
-    texto_a_mostrar = archivo.leer(nombre_calendario)
-    status 200
-    body texto_a_mostrar
-  else
-    status 400
-    body "400 Bad Request"
-  end
-end
-
-post '/calendarios' do
-  push = JSON.parse(request.body.read)
-  body "Muestro el JSON: #{push.inspect}"
-end
-=end
-
-=begin
-post'/calendarios' do
-	{
-  	"nombre":"calendario1" 
-	}
-	status=201
-	status=400 (si el nombres esta duplicado o nombre vacio)
-end
-
-delete '/calendarios/calendario1' do
-	status=200
-	status=404 (no encontrado)
-end
-
-get '/calendarios' do
-	status=200
-	[
-  	{
-    "nombre":"calendario1"
-  	},
-  	{
-    "nombre":"calendario2"
-  	}
-	]
-end
-
-get '/calendarios/calendario1' do
-	{
-  	"nombre":"calendario1"
-	}
-	status = 200
-	status = 404 (si no existe)
-end
-
-post '/eventos' do
-	{
-  	"calendario":"untref",
-  	"id":"unico-global"
-  	"nombre":"aydoo",
-  	"inicio": "2017-03-31T18:00:00-03:00",
-  	"fin": "2017-03-31T22:00:00-03:00",
-  	"recurrencia": {
-    "frecuencia": "semanal",
-    "fin":"2017-06-28"
-  	}
-	}
-	status=201
-	status=400 (si hay un error de validación)
-end
-
-put'/eventos' do
-	{
-  	"calendario":"untref", # no puede cambiar
-  	"nombre":"aydoo", # no cambia
-  	"inicio": "2017-03-31T18:00:00-03:00",
-  	"fin": "2017-03-31T22:00:00-03:00",
-	}
-
-delete '/eventos/ID' do
-
-end
-
-
-get '/eventos' do
-
-end	
-
-
-get '/eventos?calendario=calendario1' do
-
-end	
-
-get '/eventos/ID' do
-
-end
-=end
