@@ -43,4 +43,8 @@ class Evento
 		@fin = finNuevo
 	end	
 
+	def validar_recurrencia(frecuencia)
+
+	end	
+
 end	
