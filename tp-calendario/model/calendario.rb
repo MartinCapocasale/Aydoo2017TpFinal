@@ -6,20 +6,20 @@ class Calendario
 	attr_accessor :nombre
 
 	def initialize(nombre)
-		self.nombre = nombre
-		@evento = Array.new
+		@nombre = nombre
+		@evento = {}
 	end
 
-	def agregarEventoAlCalendario(id)
-		@evento.push(id)
+	def agregarEventoAlCalendario(nuevo_evento)
+		@evento[nuevo_evento.id] = nuevo_evento
 	end
-
+		
 	def eliminarEventoDelCalendario(id)
 		@evento.delete(id)
 	end
 		
 	def getEvento(id)
-		return @evento.key(id)
+		return @evento[id]
 
 	end	
 
