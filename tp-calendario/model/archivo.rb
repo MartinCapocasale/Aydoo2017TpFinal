@@ -37,18 +37,18 @@ class Archivo
 	end
 
 	def verificar_si_existe(nombre_de_archivo, contenido_a_verificar)
-	  contenido = ''
 	  existe_en_archivo = false
 	  if File.file?(nombre_de_archivo)
 		f = File.open(nombre_de_archivo, "r")
 		f.each_line { |line|
-		  if (line = contenido_a_verificar)
+		  linea_sin_new_line = line.chomp
+		  if (linea_sin_new_line == contenido_a_verificar)
 		  	existe_en_archivo = true
 		  end
 		}
 		f.close
-		return existe_en_archivo
 	  end
+	  return existe_en_archivo
 	end
 
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)

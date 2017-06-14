@@ -15,7 +15,7 @@ describe 'Calendario' do
 
 
 	it 'es posible agregar un evento al calendario ' do
-		evento = Evento.new "1", "ParcialA","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO", "CalendarioDeExamenes"
+		evento = Evento.new "CalendarioDeExamenes", "1", "ParcialA","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO"
 	  	calendario.agregarEventoAlCalendario(evento)
 	 	expect(calendario.getTotalDeEventos).to eq 1	
 	end 
@@ -23,8 +23,8 @@ describe 'Calendario' do
 
 
 	it 'es posible agregar mas de un evento al calendario ' do
-		evento1 = Evento.new "1", "ParcialA","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO", "CalendarioDeExamenes"
-		evento2 = Evento.new "2", "ParcialB","2017-04-24T15:00:00-03:00","2017-04-25T16:00:00-03:00", "NO", "CalendarioDeExamenes"
+		evento1 = Evento.new "CalendarioDeExamenes", "1", "ParcialA","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO"
+		evento2 = Evento.new "CalendarioDeExamenes", "2", "ParcialB","2017-04-24T15:00:00-03:00","2017-04-25T16:00:00-03:00", "NO"
 	  	calendario.agregarEventoAlCalendario(evento1)
 	  	calendario.agregarEventoAlCalendario(evento2)
 	 	expect(calendario.getTotalDeEventos).to eq 2	

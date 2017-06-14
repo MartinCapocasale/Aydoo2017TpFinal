@@ -5,23 +5,22 @@ require_relative './model/evento.rb'
 
 post '/calendarios' do
   params = JSON.parse(request.body.read)
+  nombre_archivo_lista_calendarios = 'lista_de_calendarios'
+  calendario_nuevo = Archivo.new
   ##body "Muestro el JSON: #{params['nombre'].inspect}"
-  if (!params.nil?)
-    nombre_calendario_a_crear = params['nombre'].downcase
-    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
-    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
-    lista_de_calendarios = Archivo.new
+  if (!params.nil? && !calendario_nuevo.verificar_si_existe(nombre_archivo_lista_calendarios, params['nombre']))
+    nombre_calendario_a_crear = params['nombre']
     #agrego nuevo calendario dentro de la lista de calendarios
+    lista_de_calendarios = Archivo.new
     lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
-    archivo = Archivo.new
     #creo el nuevo archivo con el nuevo nombre recibido por json
-    archivo.crear_y_escribir(nombre_calendario_a_crear,'nuevo')
+    calendario_nuevo.crear_y_escribir(nombre_calendario_a_crear,' ')
     ##texto_a_mostrar = archivo.leer(nombre_calendario)
     status 201
-    ##body texto_a_mostrar
+    #body "ok"
   else
     status 400
-    ##body "400 Bad Request"
+    #body "nooo"
   end
 end
 
