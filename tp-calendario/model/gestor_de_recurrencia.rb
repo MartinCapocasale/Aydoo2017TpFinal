@@ -1,6 +1,6 @@
 require_relative '../model/evento'
 
-class Recurrencia < Evento
+class GestorDeRecurrencia < Evento
 
 	attr_accessor :frecuencia	
 
