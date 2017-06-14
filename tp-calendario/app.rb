@@ -3,7 +3,7 @@ require 'json'
 require_relative './model/archivo.rb'
 
 post '/calendarios' do
-  params = JSON.parse(request.body.read) unless params.nil?
+  params = JSON.parse(request.body.read)["mensajes"]
   #body "Muestro el JSON: #{params['nombre'].inspect}"
   if (!params.nil?)
     nombre_calendario = params['nombre']
@@ -19,7 +19,7 @@ post '/calendarios' do
 end
 
 get '/calendarios' do
-  params = JSON.parse(request.body.read) unless params.nil?
+  params = JSON.parse(request.body.read)["mensajes"]
   if (!params.nil?)
     nombre_calendario = params['nombre']
     archivo = Archivo.new
