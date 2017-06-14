@@ -25,8 +25,8 @@ class Calendario
 
 	end	
 
-	def getTodosLosEventos()
-		return @evento.values
+	def getTotalDeEventos()
+		return @evento.size()
 
 	end
 
