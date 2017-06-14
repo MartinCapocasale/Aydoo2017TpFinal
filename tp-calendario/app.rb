@@ -107,3 +107,25 @@ post '/eventos' do
     status 400
   end
 end
+
+get '/eventos' do
+  #paso nombre de calendario ingresado por el usuario a variable
+  nombre_calendario_a_mostrar = params[:calendario].downcase
+  #nombre de archivo que tiene la lista de calendarios
+  nombre_archivo_lista_calendarios = 'lista_de_calendarios'
+  #creo un nuevo objeto archivo que voy a utilizar
+  calendario_a_buscar = Archivo.new
+  if (!nombre_calendario_a_mostrar.nil? & calendario_a_buscar.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+    #creo un nuevo objeto archivo que voy a utilizar
+    lista_de_eventos = Archivo.new
+    #guardo el contenido del archivo que guarda la lista de calendarios existentes
+    texto_a_mostrar = lista_de_eventos.leer(nombre_calendario_a_mostrar)
+    #devuelvo status
+    status 200
+    #muestra lista de calendarios
+    body texto_a_mostrar
+  else
+    #devuelvo status
+    status 400
+  end
+end
