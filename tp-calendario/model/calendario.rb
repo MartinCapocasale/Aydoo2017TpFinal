@@ -5,11 +5,21 @@ class Calendario
 
 	attr_accessor :evento
 	attr_accessor :nombre
+	@@calendarios = {}
 
 	def initialize(nombre)
 		ValidacionDeNombreCalendario.new(nombre)
 		@nombre = nombre
 		@evento = {}
+		@@calendarios[nombre]
+	end
+
+	def eliminarCalendario(nombre)
+		@@calendarios.delete[nombre]
+	end	
+
+	def getTotalDeCalendarios()
+		return @@calendarios.size()
 	end
 
 	def agregarEventoAlCalendario(nuevo_evento)
@@ -17,7 +27,7 @@ class Calendario
 	end
 		
 	def eliminarEventoDelCalendario(id)
-		@evento.delete(id)
+		@evento.delete[id]
 	end
 		
 	def getEvento(id)
@@ -35,5 +45,7 @@ class Calendario
 		@evento.actualizarEvento(inicio, fin)
 	end
 
+	def unico_evento_del_calendario(id)
 
+	end	
 end
