@@ -1,12 +1,12 @@
-require_relative './exception_validacion_de_duracion'
+require_relative './exception_validacion_de_nombre_calendario'
 
 
 class ValidacionDeNombreCalendario
 
-	attr_accessor :nombre
+	@nombre = ''
 
 	def initialize(un_nombre)
-		if(nombre == '')
+		if(un_nombre == @nombre)
 			raise ExceptionValidacionDeNombreCalendario
 		end	
 		@nombre = un_nombre
