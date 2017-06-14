@@ -54,7 +54,7 @@ class Calendario
 	end	
 
 	def validar_solapamiento_de_eventos(id)
-		raise ExceptionLosEventosSeSolapan if @evento[id] == id
+		raise ExceptionLosEventosSeSolapan 
 
 	end	
 
