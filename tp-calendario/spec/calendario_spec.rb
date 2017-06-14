@@ -29,7 +29,12 @@ describe 'Calendario' do
 	  	calendario.agregarEventoAlCalendario(evento2)
 	 	expect(calendario.getTotalDeEventos).to eq 2	
 	end
+=begin
+	it 'no es posible crear dos eventos superpuestos' do
 
-
+	    Evento.new  "1", "Un evento", "2017-03-31T16:00:00-03:00", "2017-03-31T17:30:00-03:00", "NO","CalendarioDeExamenes"
+    	expect {Evento.new "2", "Otro evento", "2017-03-31T17:00:00-03:00", "2017-03-31T18:00:00-03:00","NO", "CalendarioDeExamenes"}.to raise_error(ExceptionLosEventosSeSolapan)
+	end
+=end	
 
 end

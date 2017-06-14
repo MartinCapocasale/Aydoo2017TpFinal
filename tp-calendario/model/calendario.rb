@@ -26,6 +26,7 @@ class Calendario
 
 	def agregarEventoAlCalendario(nuevo_evento)
 		validar_unico_evento_del_calendario(nuevo_evento.id)
+		validar_solapamiento_de_eventos(nuevo_evento)
 		@evento[nuevo_evento.id] = nuevo_evento
 	end
 		
@@ -54,9 +55,20 @@ class Calendario
 
 	end	
 
-	def validar_solapamiento_de_eventos(id)
-		raise ExceptionLosEventosSeSolapan 
 
+
+	def validar_solapamiento_de_eventos(nuevo_evento)
+		hora_inicio = Date.parse(nuevo_evento.inicio)
+		hora_fin = Date.parse(nuevo_evento.fin)
+		@evento.values.each do |e|
+			inicio_comparar = Date.parse(e.inicio)
+			fin_comparar = Date.parse(e.fin)
+			raise ExceptionLosEventosSeSolapan if hora_inicio.between?(inicio_comparar, fin_comparar) && e.id != id
+			raise ExceptionLosEventosSeSolapan if hora_fin.between?(inicio_comparar, fin_comparar) && e.id != id
+			raise ExceptionLosEventosSeSolapan if inicio_comparar.between?(hora_inicio, hora_fin) && e.id != id
+			raise ExceptionLosEventosSeSolapan if fin_comparar.between?(hora_inicio, hora_fin) && e.id != id
+		end
 	end	
+	
 
 end
