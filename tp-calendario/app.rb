@@ -3,21 +3,37 @@ require 'json'
 require_relative './model/archivo.rb'
 
 post '/calendarios' do
-  params = JSON.parse(request.body.read)["mensajes"]
-  #body "Muestro el JSON: #{params['nombre'].inspect}"
+  params = JSON.parse(request.body.read)
+  ##body "Muestro el JSON: #{params['nombre'].inspect}"
   if (!params.nil?)
-    nombre_calendario = params['nombre']
+    nombre_calendario_a_crear = params['nombre']
+    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
+    lista_de_calendarios = Archivo.new
+    #agrego nuevo calendario dentro de la lista de calendarios
+    lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
     archivo = Archivo.new
-    archivo.crear_y_escribir(nombre_calendario,'nuevo')
-    texto_a_mostrar = archivo.leer(nombre_calendario)
-    status 200
-    body texto_a_mostrar
+    #creo el nuevo archivo con el nuevo nombre recibido por json
+    archivo.crear_y_escribir(nombre_calendario_a_crear,'nuevo')
+    ##texto_a_mostrar = archivo.leer(nombre_calendario)
+    status 201
+    ##body texto_a_mostrar
   else
     status 400
-    body "400 Bad Request"
+    ##body "400 Bad Request"
   end
 end
 
+get '/calendarios' do
+    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
+    lista_de_calendarios = Archivo.new
+    texto_a_mostrar = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
+    status 200
+    body texto_a_mostrar
+end
+
+=begin
 get '/calendarios' do
   params = JSON.parse(request.body.read)["mensajes"]
   if (!params.nil?)
@@ -31,6 +47,7 @@ get '/calendarios' do
     body "400 Bad Request"
   end
 end
+=end
 
 =begin
 get '/calendario/:nombre_calendario' do

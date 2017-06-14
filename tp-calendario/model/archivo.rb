@@ -5,7 +5,7 @@ class Archivo
 		f = File.open(nombre_de_archivo, "a") { |f|
 		  f.puts(texto_a_escribir)
 		}
-		f.close
+		#f.close
 	  end
 	end
 
@@ -14,6 +14,7 @@ class Archivo
 	    f = File.open(nombre_de_archivo, "w") { |f|
 	  	  f.puts(texto_a_escribir)
 	    }
+	    #f.close
 	  end    
 	end
 
