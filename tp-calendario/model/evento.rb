@@ -12,7 +12,7 @@ class Evento
 	
 
 	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
-		#ValidacionDeDuracion.new(inicio, fin)
+		ValidacionDeDuracion.new(inicio, fin)
 		@nombre_calendario = nombre_calendario
 		@id = id
 		@nombre = nombre
