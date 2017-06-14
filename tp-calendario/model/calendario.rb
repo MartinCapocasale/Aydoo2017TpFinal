@@ -1,6 +1,7 @@
 require_relative './evento'
 require_relative './validacion_de_nombre_calendario'
 require_relative './exception_unico_evento'
+require_relative './exception_los_eventos_se_solapan'
 
 class Calendario
 
@@ -51,4 +52,10 @@ class Calendario
 		raise ExceptionUnicoEvento if @evento[id] == id
 
 	end	
+
+	def validar_solapamiento_de_eventos(id)
+		raise ExceptionLosEventosSeSolapan if @evento[id] == id
+
+	end	
+
 end
