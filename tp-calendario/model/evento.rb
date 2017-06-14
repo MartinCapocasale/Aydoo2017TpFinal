@@ -8,7 +8,7 @@ class Evento
 	attr_accessor :fin
 	attr_accessor :recurrencia
 	attr_accessor :nuevo_evento
-	
+	attr_accessor :json_del_evento
 	
 
 	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
