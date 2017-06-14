@@ -1,22 +1,31 @@
 require_relative './validacion_de_duracion'
 
 class Evento
-	attr_reader :nombre
-	attr_reader :id
+	attr_accessor :nombre_calendario
+	attr_accessor :id
+	attr_accessor :nombre
 	attr_accessor :inicio
 	attr_accessor :fin
 	attr_accessor :recurrencia
-	attr_accessor :nombre_calendario
+	attr_accessor :nuevo_evento
+	
 	
 
-	def initialize(id, nombre, inicio, fin, recurrencia, nombre_calendario)
-		ValidacionDeDuracion.new(inicio, fin)
-		@inicio = inicio
-		@nombre = nombre
-		@fin = fin
-		@id = id
-		@recurrencia = recurrencia
+	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
+		#ValidacionDeDuracion.new(inicio, fin)
 		@nombre_calendario = nombre_calendario
+		@id = id
+		@nombre = nombre
+		@inicio = inicio
+		@fin = fin
+		@recurrencia = recurrencia
+		@nuevo_evento = Array.new
+		@nuevo_evento = [@id, @nombre, @inicio, @fin]
+		#return nuevo_evento
+	end
+
+	def mostrar_contenido()
+		return nuevo_evento
 	end
 
 	def actualizarEvento(inicioNuevo, finNuevo)

@@ -1,12 +1,13 @@
 require 'sinatra'
 require 'json'
 require_relative './model/archivo.rb'
+require_relative './model/evento.rb'
 
 post '/calendarios' do
   params = JSON.parse(request.body.read)
   ##body "Muestro el JSON: #{params['nombre'].inspect}"
   if (!params.nil?)
-    nombre_calendario_a_crear = params['nombre']
+    nombre_calendario_a_crear = params['nombre'].downcase
     #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
     nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
     lista_de_calendarios = Archivo.new
@@ -30,8 +31,56 @@ get '/calendarios' do
     lista_de_calendarios = Archivo.new
     texto_a_mostrar = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
     status 200
+    #muestra lista de calendarios
     body texto_a_mostrar
 end
+
+delete '/calendarios/:nombre' do
+  nombre_calendario_a_eliminar = params[:nombre].downcase
+  if (!nombre_calendario_a_eliminar.nil?)
+    archivo = Archivo.new
+    archivo.borrar_archivo(nombre_calendario_a_eliminar)
+    actualizar_lista_calendarios = Archivo.new
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
+    actualizar_lista_calendarios.busca_contenido_y_elimina(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar)
+    status 200
+  else
+    status 400
+    ##body "400 Bad Request"
+  end
+end
+
+
+post '/eventos' do
+  params = JSON.parse(request.body.read)
+  ##body "Muestro el JSON: #{params['nombre'].inspect}"
+  if (!params.nil?)
+    #crea el evento con los parametros de json
+    nuevo_evento = Evento.new params['calendario'],params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
+    archivo = Archivo.new
+    #abre el archivo calendario con el nombre recibido por json
+    archivo.escribir(nombre_calendario_a_crear,nuevo_evento)
+    status 200
+    body nuevo_evento.mostrar_contenido()
+  else
+    status 400
+    ##body "400 Bad Request"
+  end
+end
+
+=begin    
+    nombre_calendario_a_crear = params['nombre']
+    #nombre de archivo guarda el nombre del archivo que tiene la lista de calendarios
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
+    lista_de_calendarios = Archivo.new
+    #agrego nuevo calendario dentro de la lista de calendarios
+    lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
+    archivo = Archivo.new
+    #creo el nuevo archivo con el nuevo nombre recibido por json
+    archivo.crear_y_escribir(nombre_calendario_a_crear,'nuevo')
+    ##texto_a_mostrar = archivo.leer(nombre_calendario)
+    status 201
+=end
 
 =begin
 get '/calendarios' do
