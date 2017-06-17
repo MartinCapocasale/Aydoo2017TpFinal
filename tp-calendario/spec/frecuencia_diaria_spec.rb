@@ -16,9 +16,9 @@ describe 'FrecuenciaDiaria' do
 	    expect(valor_obtenido).to eq(valor_esperado)
 	end
 
-	it 'deberia devolver "2000-01-01T18:00:00-03:00"' do
-	    fecha_inicio = DateTime.parse("1999-12-31T18:00:00-03:00")
-	    valor_esperado = DateTime.new(2000, 1, 1, 18, 0, 0, "-03:00") 
+	it 'deberia devolver "2017-01-01T18:00:00-03:00"' do
+	    fecha_inicio = DateTime.parse("2016-12-31T18:00:00-03:00")
+	    valor_esperado = DateTime.new(2017, 1, 1, 18, 0, 0, "-03:00") 
 	    valor_obtenido = @una_frecuencia.calcular(fecha_inicio)
 	    
 	    expect(valor_obtenido).to eq(valor_esperado)

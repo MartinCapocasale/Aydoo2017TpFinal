@@ -12,7 +12,7 @@ class Frecuencia
 
 
     def set_Frecuencia(frecuencia)
-    	 self.tiposDeRecurrencia[frecuencia]
+    	 return @tiposDeRecurrencia[frecuencia]
     end	 
 
 end
