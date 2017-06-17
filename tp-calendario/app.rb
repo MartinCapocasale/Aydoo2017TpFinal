@@ -3,6 +3,7 @@ require 'json'
 require_relative './model/archivo.rb'
 require_relative './model/evento.rb'
 
+#funcion para crear un calendario
 post '/calendarios' do
   #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read)
@@ -28,6 +29,14 @@ post '/calendarios' do
   end
 end
 
+#to-do: el json sale mal si no hay ningun calendario creado. ver el IF
+#ahora no se rompe, pero si no hay calendarios devuevle json con nombre y nada
+#debe ser porque en lista de calendarios hay un ENTER cuando no hay nada
+
+#crear funcion en archivo para verificar si archivo esta vacio
+#y que esa sea la primera verificacion cuando hay que listar cal o eventos
+
+#funcion para listar todos los calendarios
 get '/calendarios' do
     #nombre de archivo que tiene la lista de calendarios
     nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
@@ -38,7 +47,9 @@ get '/calendarios' do
     #convierto el texto a json, esto tiene que ir en un presentador
     json_a_devolver = ''
     texto_a_mostrar.each_line { |line|
-      json_a_devolver = {'nombre' => line.chomp}
+      if (!line.nil?)
+        json_a_devolver = {'nombre' => line.chomp}
+      end
     }
     #devuelvo status
     status 200
@@ -109,23 +120,63 @@ post '/eventos' do
 end
 
 get '/eventos' do
-  #paso nombre de calendario ingresado por el usuario a variable
-  nombre_calendario_a_mostrar = params[:calendario].downcase
-  #nombre de archivo que tiene la lista de calendarios
-  nombre_archivo_lista_calendarios = 'lista_de_calendarios'
-  #creo un nuevo objeto archivo que voy a utilizar
-  calendario_a_buscar = Archivo.new
-  if (!nombre_calendario_a_mostrar.nil? & calendario_a_buscar.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+  if (!params[:calendario].nil?)
+    #paso nombre de calendario ingresado por el usuario a variable
+    nombre_calendario_a_mostrar = params[:calendario].downcase
+    #nombre de archivo que tiene la lista de calendarios
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios'
     #creo un nuevo objeto archivo que voy a utilizar
-    lista_de_eventos = Archivo.new
+    calendario_a_buscar = Archivo.new
+    if (!nombre_calendario_a_mostrar.nil? & calendario_a_buscar.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+      #creo un nuevo objeto archivo que voy a utilizar
+      lista_de_eventos = Archivo.new
+      #guardo el contenido del archivo que guarda la lista de calendarios existentes
+      texto_a_mostrar = lista_de_eventos.leer(nombre_calendario_a_mostrar)
+      #devuelvo status
+      status 200
+      #muestra lista de calendarios
+      body texto_a_mostrar
+    else
+      #devuelvo status
+      status 400
+    end
+  elsif (params[:calendario].nil?)
+  #paso el id del evento ingresado por el usuario a variable
+  #id_evento_a_eliminar = params[:id].downcase
+  #if (!id_evento_a_eliminar.nil?)
+    #nombre de archivo que tiene la lista de calendarios
+    nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
+    #creo un nuevo objeto archivo que voy a utilizar
+    lista_de_calendarios = Archivo.new
     #guardo el contenido del archivo que guarda la lista de calendarios existentes
-    texto_a_mostrar = lista_de_eventos.leer(nombre_calendario_a_mostrar)
+    calendarios_existentes = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
+    #convierto el texto a json, esto tiene que ir en un presentador
+    #json_a_devolver = ''
+    #creo un nuevo objeto archivo que voy a utilizar
+    calendario = Archivo.new
+    #recorro cada calendario de la lista de calendarios existentes
+    texto_a_mostrar = ''
+    calendarios_existentes.each_line { |line|
+      if (!line.nil?)
+      calendario_iterado = line.chomp
+      #guardo el contenido del archivo que guarda la lista de calendarios existentes
+      lista_de_eventos = calendario.leer(calendario_iterado)
+        #recorro cada evento de un calendario existente
+        lista_de_eventos.each_line { |line|
+          #evento_iterado = line.chomp
+          if (!line.nil?)
+            #guardo el contenido de cada evento
+            texto_a_mostrar += line.chomp
+          end
+        }
+      end  
+    }
     #devuelvo status
     status 200
     #muestra lista de calendarios
     body texto_a_mostrar
-  else
-    #devuelvo status
-    status 400
-  end
+  end    
 end
+
+#to-do sacar variable lista de calendarios y definirla solo 1 vez
+#delete '/eventos/:id' do
