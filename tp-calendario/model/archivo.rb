@@ -68,7 +68,7 @@ class Archivo
 	  end
 	end
 
-	def busca_por_id_y_elimina(nombre_de_archivo, identificador_a_buscar, contenido_del_identificador)
+	def busca_contenido_por_id_y_elimina(nombre_de_archivo, identificador_a_buscar, contenido_del_identificador)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)
 		f = File.open(nombre_de_archivo, "r")

@@ -206,7 +206,7 @@ delete '/eventos/:id' do
       if (!line.nil?)
         un_calendario = line.chomp
         #busco el evento en la lista y lo elimino
-        calendario.busca_por_id_y_elimina(un_calendario, identificador_a_buscar, nombre_evento_a_eliminar)
+        calendario.busca_contenido_por_id_y_elimina(un_calendario, identificador_a_buscar, nombre_evento_a_eliminar)
       end
     }
     #devuelvo status
