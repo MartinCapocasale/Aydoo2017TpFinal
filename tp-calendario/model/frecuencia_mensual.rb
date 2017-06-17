@@ -1,10 +1,12 @@
 require_relative '../model/frecuencia'
+require 'date'
 
-class FrecuenciaMensual < Frecuencia
+class FrecuenciaMensual
 	
-	MES = 30  	
+	MES = 1  	
 
-  	def initialize()
-   		 @frecuencia = MES
+   	def calcular(una_fecha)
+   		nueva_fecha = una_fecha.next_month(MES)
+   		return nueva_fecha
 	end
 end	
