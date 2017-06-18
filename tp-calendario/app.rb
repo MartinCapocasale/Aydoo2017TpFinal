@@ -10,7 +10,8 @@ lista_de_calendarios = Archivo.new
 calendarios_existentes = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
 #creo un nuevo objeto que voy a utilizar
 calendario = Archivo.new
-
+#defino nombre del campo id dentro del json que conforma cada evento
+campo_id_en_json_evento = 'id'
 
 #funcion para crear un calendario
 post '/calendarios' do
@@ -19,13 +20,13 @@ post '/calendarios' do
   #nombre de archivo que tiene la lista de calendarios
   #nombre_archivo_lista_calendarios = 'lista_de_calendarios'
   #tomo de parametros ingresados el nombre del calendario a crear
-  nombre_calendario_a_crear = params['nombre'].downcase
+  nombre_calendario_a_crear = params['nombre'].downcase unless params['nombre'].nil?
   #creo un nuevo objeto archivo que voy a utilizar
   ##calendario_nuevo = Archivo.new
   #creo un nuevo objeto archivo que voy a utilizar
   ##lista_de_calendarios = Archivo.new
   #si existen los parametros pasados por usuario y si no existe ya el calendario en la lista
-  if (!params.nil? && !calendario_nuevo.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_crear))
+  if (!params.nil? && !calendario.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_crear))
     #agrego nuevo calendario dentro de la lista de calendarios
     lista_de_calendarios.escribir(nombre_archivo_lista_calendarios, nombre_calendario_a_crear)
     #creo el nuevo archivo con el nuevo nombre recibido por json
@@ -114,12 +115,12 @@ end
 #funcion para agregar un evento
 post '/eventos' do
   #paso json ingresado por usuario a variable
-  params = JSON.parse(request.body.read)
+  params = JSON.parse(request.body.read) unless request.body.nil?
   #guardo el nombre del calendario donde se quiere crear el evento
-  nombre_calendario_a_modificar = params['calendario'].downcase
+  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
   #creo un nuevo objeto archivo que voy a utilizar  
   ##archivo = Archivo.new
-  if (!params.nil?)
+  if (!params.nil? && !params['calendario'].nil? && !params['id'].nil?)
     #creo nuevo evento con los parametros de json
     nuevo_evento = Evento.new params['calendario'].downcase, params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
     #abro el archivo calendario con el nombre recibido por json y guardo el evento
@@ -181,7 +182,7 @@ end
 
 #funcion para mostrar los eventos, los de un calendario especifico o todos
 get '/eventos' do
-  #si no se especifica ningun calendario se mostraran todos
+  #si se especifica un calendario se mostraran los eventos del mismo
   if (!params[:calendario].nil?)
     #paso nombre de calendario ingresado por el usuario a variable
     nombre_calendario_a_mostrar = params[:calendario].downcase
@@ -202,7 +203,7 @@ get '/eventos' do
       #devuelvo status
       status 400
     end
-  #si se especifica un calendario se mostrara solo ese
+  #si no se especifica ningun calendario se mostraran todos los eventos de todos los calendarios
   elsif (params[:calendario].nil?)
   #elsif (params[:calendario].nil? && params[:id].nil?)
   #elsif (params.nil?)
@@ -256,7 +257,7 @@ get '/eventos/:id' do
     #nombre de archivo que tiene la lista de calendarios
     #nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
     #nombre del campo identificador a buscar dentro de json de eventos a borrar
-    identificador_a_buscar = 'id'
+    ##campo_id_en_json_evento = 'id'
     #creo un nuevo objeto archivo que voy a utilizar
     ##lista_de_calendarios = Archivo.new
     #preparo la variable para que al menos exista contenido vacio para mostrar
@@ -270,7 +271,7 @@ get '/eventos/:id' do
       if (!line.nil?)
         un_calendario = line.chomp
         #busco el evento en la lista y lo elimino
-        texto_a_mostrar += calendario.busca_contenido_por_id_y_lo_muestra(un_calendario, identificador_a_buscar, nombre_evento_a_mostrar)
+        texto_a_mostrar += calendario.busca_contenido_por_id_y_lo_muestra(un_calendario, campo_id_en_json_evento, nombre_evento_a_mostrar)
       end
     }
     #muestro los eventos encontrados con el identificador solicitado
@@ -291,7 +292,7 @@ delete '/eventos/:id' do
     #nombre de archivo que tiene la lista de calendarios
     #nombre_archivo_lista_calendarios = 'lista_de_calendarios' 
     #nombre del campo identificador a buscar dentro de json de eventos a borrar
-    identificador_a_buscar = 'id'
+    ##campo_id_en_json_evento = 'id'
     #creo un nuevo objeto archivo que voy a utilizar
     ##lista_de_calendarios = Archivo.new
     #guardo el contenido del archivo que guarda la lista de calendarios existentes
@@ -303,9 +304,30 @@ delete '/eventos/:id' do
       if (!line.nil?)
         un_calendario = line.chomp
         #busco el evento en la lista y lo elimino
-        calendario.busca_contenido_por_id_y_elimina(un_calendario, identificador_a_buscar, nombre_evento_a_eliminar)
+        calendario.busca_contenido_por_id_y_elimina(un_calendario, campo_id_en_json_evento, nombre_evento_a_eliminar)
       end
     }
+    #devuelvo status
+    status 200
+  else
+    #devuelvo status
+    status 400
+  end
+end
+
+#funcion para modificar un evento segun el id solicitado
+put '/eventos' do
+  #paso json ingresado por usuario a variable
+  params = JSON.parse(request.body.read) unless request.body.nil?
+  #tomo de parametros ingresados el nombre del calendario a modificar
+  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
+  #tomo de parametros ingresados el nombre del calendario a modificar
+  id_evento_a_modificar = params['id'].downcase unless params['id'].nil?
+
+  if (!nombre_calendario_a_modificar.nil? && !id_evento_a_modificar.nil?)
+    body calendario.busca_contenido_por_id_y_modifica(nombre_calendario_a_modificar, campo_id_en_json_evento, id_evento_a_modificar, params)
+    #muestro los eventos encontrados con el identificador solicitado
+    #body texto_a_mostrar
     #devuelvo status
     status 200
   else

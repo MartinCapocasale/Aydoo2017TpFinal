@@ -108,4 +108,23 @@ class Archivo
 	  return contenido
 	end
 
+	def busca_contenido_por_id_y_modifica(nombre_de_archivo, identificador_a_buscar, contenido_del_identificador, json_con_nuevos_datos)
+	  contenido = ''
+	  if File.file?(nombre_de_archivo)
+		f = File.open(nombre_de_archivo, "r")
+		f.each_line { |line|
+		  linea_sin_new_line = line.chomp
+		  if (linea_sin_new_line != '')
+			json_de_evento = JSON.parse(linea_sin_new_line)
+			if (json_de_evento[identificador_a_buscar] = contenido_del_identificador)
+			  #contenido += line
+			  contenido = "EVENTO ENCONTRADO"
+			end
+		  end  
+		}
+		f.close
+	  end
+	  return contenido
+	end
+
 end
