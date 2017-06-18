@@ -240,7 +240,7 @@ get '/eventos' do
           end
         #end  
       }
-    end  
+    end
     #muestra lista de eventos del calendario solicitado
     body texto_a_mostrar
     #devuelvo status
@@ -319,15 +319,15 @@ end
 put '/eventos' do
   #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read) unless request.body.nil?
+  #inicializo variable por si no se pasa el calendario, para modificar evento en todos los calendarios
+  nombre_calendario_a_modificar = ''
   #tomo de parametros ingresados el nombre del calendario a modificar
   nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
   #tomo de parametros ingresados el nombre del calendario a modificar
   id_evento_a_modificar = params['id'].downcase unless params['id'].nil?
-
-  if (!nombre_calendario_a_modificar.nil? && !id_evento_a_modificar.nil?)
-    body calendario.busca_contenido_por_id_y_modifica(nombre_calendario_a_modificar, campo_id_en_json_evento, id_evento_a_modificar, params)
-    #muestro los eventos encontrados con el identificador solicitado
-    #body texto_a_mostrar
+  #es obligatorio ingresar el id del evento
+  if (!id_evento_a_modificar.nil?)
+    calendario.busca_contenido_por_id_y_modifica(nombre_calendario_a_modificar, campo_id_en_json_evento, id_evento_a_modificar, params)
     #devuelvo status
     status 200
   else

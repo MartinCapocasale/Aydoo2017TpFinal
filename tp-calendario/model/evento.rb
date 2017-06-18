@@ -4,8 +4,11 @@ require_relative './frecuencia'
 require "date"
 
 class Evento
+	#poner nombre calendario como reader?
 	attr_accessor :nombre_calendario
+	#poner id como reader?
 	attr_accessor :id
+	#poner nombre de evento como reader?
 	attr_accessor :nombre
 	attr_accessor :inicio
 	attr_accessor :fin
@@ -16,57 +19,82 @@ class Evento
 	
 
 	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
-		ValidacionDeDuracion.new(inicio, fin)
-		@nombre_calendario = nombre_calendario
-		@id = id
-		@nombre = nombre
-		@inicio = inicio
-		@fin = fin
-		@recurrencia = recurrencia
-		@nuevo_evento = Array.new
-		#@frecuencia = Frecuencia.new
-		@json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
+	  #cambiar esto a snake case
+	  ValidacionDeDuracion.new(inicio, fin)
+ 	  @nombre_calendario = nombre_calendario
+	  @id = id
+	  @nombre = nombre
+	  @inicio = inicio
+	  @fin = fin
+	  @recurrencia = recurrencia
+	  @nuevo_evento = Array.new
+	  #@frecuencia = Frecuencia.new
+	  @json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
 	end
 
 	def mostrar_contenido()
-		return JSON[@json_del_evento]
+	  return JSON[@json_del_evento]
 	end
 
-	def actualizarEvento(inicioNuevo, finNuevo)
-		ValidacionDeDuracion.new(inicioNuevo, finNuevo)
-		@inicio = inicioNuevo
-		@fin = finNuevo
+	def actualizar_evento(nuevo_evento)
+	  #establezco nuevo inicio con la fecha actual del evento por si no hace falta modificarla
+	  inicio_nuevo = get_fecha_inicio()
+	  #establezco nuevo fin con la fecha actual del evento por si no hace falta modificarla
+	  fin_nuevo = get_fecha_fin()
+	  #establezco nuevo inicio con la fecha del evento nuevo, si existe nueva fecha para modificar
+	  inicio_nuevo = nuevo_evento.get_fecha_inicio() unless !nuevo_evento.get_fecha_inicio()
+	  #establezco nuevo fin con la fecha del evento nuevo, si existe nueva fecha para modificar
+	  fin_nuevo = nuevo_evento.get_fecha_fin() unless !nuevo_evento.get_fecha_fin()
+	  if (ValidacionDeDuracion.new(inicio_nuevo, fin_nuevo))
+	  	#actualizo fecha de inicio
+	  	@inicio = inicio_nuevo
+	  	#actualizo fecha de fin
+	  	@fin = fin_nuevo
+	  	#actualizo el json del evento con todos sus datos
+	  	@json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
+	  end
+	  return mostrar_contenido()
 	end
 
+	def get_fecha_inicio()
+	  return @inicio
+	end
+
+	def get_fecha_fin()
+	  return @fin
+	end
+
+	#cambiar todos los metodos camel case a snake case
 	def setInicio(inicioNuevo)
-		ValidacionDeDuracion.new(inicioNuevo, @fin)
-		@inicio = inicioNuevo
+	  ValidacionDeDuracion.new(inicioNuevo, @fin)
+	  @inicio = inicioNuevo
 	end
 
 	def setFin(finNuevo)
-		ValidacionDeDuracion.new(@inicio, finNuevo)
-		@fin = finNuevo
-	end	
+	  ValidacionDeDuracion.new(@inicio, finNuevo)
+	  @fin = finNuevo
+	end
 
 	def calcular_recurrencia(gestor_de_recurrencia)
-		una_frecuencia = @frecuencia.set_Frecuencia(gestor_de_recurrencia.obtener_frecuencia)
-		fechaFin = gestor_de_recurrencia.obtener_fecha_fin
-		fechaActual = @inicio
-		hora_ini = @inicio
-		hora_fin = @fin
-		i = 0
-    	j = 1
-   	    while fechaActual <= fechaFin do
-   	    	@nuevo_evento[i] = fechaActual
-   	    	@nuevo_evento = hora_fin
-   	    	fechaActual = una_frecuencia.calcular(fechaActual)
-   	    	hora_fin = una_frecuencia.calcular(hora_fin)
-   	    	i = i + 2
-   	    	j = j + 2
-   	    end
+	  una_frecuencia = @frecuencia.set_Frecuencia(gestor_de_recurrencia.obtener_frecuencia)
+	  fechaFin = gestor_de_recurrencia.obtener_fecha_fin
+	  fechaActual = @inicio
+	  hora_ini = @inicio
+	  hora_fin = @fin
+	  i = 0
+      j = 1
+   	  while fechaActual <= fechaFin do
+   	    @nuevo_evento[i] = fechaActual
+   	    @nuevo_evento = hora_fin
+   	    fechaActual = una_frecuencia.calcular(fechaActual)
+   	    hora_fin = una_frecuencia.calcular(hora_fin)
+   	    i = i + 2
+   	    j = j + 2
+   	  end
 	end
 
 	def obtenerEvento
-		return @nuevo_evento
+	  return @nuevo_evento
 	end
+
 end	

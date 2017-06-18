@@ -22,5 +22,8 @@ curl localhost:4567/eventos/evento1
 #Para borrar un evento
 curl -X DELETE localhost:4567/eventos/evento1
 
-#Para modificar un evento
+#Para modificar todos los eventos con ese id en todos los calendarios
 curl -X PUT -d '{"id":"evento1", "inicio":"2016-08-31T18:00:00-03:00", "fin":"2016-08-31T22:00:00-03:00"}' localhost:4567/eventos
+
+#Para modificar un evento en un calendario especifico
+curl localhost:4567/eventos{"calendario":"calendario1","id":"evento1","nombre":"evento uno","inicio":"2014-08-31T18:00:00-03:00","fin":"2014-08-31T22:00:00-03:00"}
