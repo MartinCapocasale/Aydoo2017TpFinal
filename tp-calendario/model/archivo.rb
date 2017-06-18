@@ -81,11 +81,7 @@ class Archivo
 		}
 		f.close
 	  end
-	  if File.file?(nombre_de_archivo)
-	    f = File.open(nombre_de_archivo, "w") { |f|
-	  	  f.puts(contenido)
-	  	}
-	  end
+	  borrar_contenido_anterior_y_escribir(nombre_de_archivo, contenido)
 	end
 
 	def busca_contenido_por_id_y_elimina(nombre_de_archivo, identificador_a_buscar, contenido_del_identificador)
@@ -153,15 +149,13 @@ class Archivo
 	  #si nombre_de_archivo llega vacio es porque el evento se debe modificar en todos los calendarios
 	  elsif (nombre_de_archivo == '')
 	  	#recorro todos los calendarios buscando el evento
-	  	contenido = recorro_todos_los_calendarios_y_busco_evento_por_id(identificador_a_buscar, contenido_del_identificador, json_con_nuevos_datos)
+	  	recorro_todos_los_calendarios_y_busco_evento_por_id(identificador_a_buscar, contenido_del_identificador, json_con_nuevos_datos)
 	  end
 
 	  #return contenido
 	end
 
 	def recorro_todos_los_calendarios_y_busco_evento_por_id(identificador_a_buscar, contenido_del_identificador, json_con_nuevos_datos)
-	  #preparo la variable para que al menos exista contenido vacio para mostrar
-	  contenido = ''
 	  #recorro cada calendario de la lista de calendarios existentes
 	  #verifica que exista al menos un calendario para iterar
 	  if (@calendarios_existentes.size > 1)
@@ -170,6 +164,8 @@ class Archivo
 	      #guardo el contenido del archivo que guarda la lista de calendarios existentes
 	      lista_de_eventos = leer(un_calendario)
 	      if (!lista_de_eventos.nil? && lista_de_eventos.size > 1)
+	        #preparo la variable que guardara los eventos del calendario iterado
+	  		contenido = ''
 	        #recorro cada evento de un calendario existente
 	        lista_de_eventos.each_line { |line2|
 		      linea_sin_new_line = line2.chomp
@@ -192,7 +188,7 @@ class Archivo
 	      borrar_contenido_anterior_y_escribir(un_calendario, contenido)
 	    }
 	  end
-	  return contenido
+	  #return contenido
 	end
 
 end

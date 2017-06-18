@@ -4,12 +4,9 @@ require_relative './frecuencia'
 require "date"
 
 class Evento
-	#poner nombre calendario como reader?
-	attr_accessor :nombre_calendario
-	#poner id como reader?
-	attr_accessor :id
-	#poner nombre de evento como reader?
-	attr_accessor :nombre
+	attr_reader :nombre_calendario
+	attr_reader :id
+	attr_reader :nombre
 	attr_accessor :inicio
 	attr_accessor :fin
 	attr_accessor :recurrencia
