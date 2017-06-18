@@ -23,8 +23,8 @@ class Evento
 		@inicio = inicio
 		@fin = fin
 		@recurrencia = recurrencia
-		@nuevo_evento = []
-		@frecuencia = Frecuencia.new
+		@nuevo_evento = Array.new
+		#@frecuencia = Frecuencia.new
 		@json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
 	end
 

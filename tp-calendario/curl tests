@@ -8,7 +8,7 @@ curl localhost:4567/calendarios
 curl -X DELETE localhost:4567/calendarios/calendario1
 
 #Para agregar un evento
-curl -X POST -d '{"calendario":"calendario1", "id":"evento1", "nombre":"evento uno", "inicio":"2017-07-31T18:00:00-03:00", "fin":"2017-10-28", "recurrencia":{"frecuencia":"semanal", "fin":"2017-10-28"}}' localhost:4567/eventos
+curl -X POST -d '{"calendario":"calendario1", "id":"test2", "nombre":"evento uno", "inicio":"2017-07-30T18:00:00-03:00", "fin":"2017-07-31", "recurrencia":{"frecuencia":"semanal", "fin":"2017-10-28"}}' localhost:4567/eventos
 
 #Para listar los eventos de un calendario
 curl localhost:4567/eventos?calendario=calendario1
