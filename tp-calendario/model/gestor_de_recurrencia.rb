@@ -1,4 +1,3 @@
-require_relative '../model/evento'
 require 'date'
 
 class GestorDeRecurrencia 
@@ -8,14 +7,14 @@ class GestorDeRecurrencia
 	
 	def initialize (una_frecuencia,una_fechaFin)
 			@frecuencia = una_frecuencia
-			@unafechaFin = DateTime.parse(una_fechaFin)
+			@fechaFin = DateTime.parse(una_fechaFin)
 	end
 
-	def obtener_Frecuencia
+	def obtener_frecuencia
 	  	return @frecuencia
 	end
 
-    def obtener_Fecha_fin
-	    return @unafechaFin
+    def obtener_fecha_fin
+	    return @fechaFin
 	end
 end

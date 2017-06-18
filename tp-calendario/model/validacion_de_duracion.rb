@@ -9,8 +9,8 @@ class ValidacionDeDuracion
 
 	def initialize(inicio, fin)
 		raise ExceptionValidacionDeDuracion  if (fin < inicio)
-		hora_inicio  = Date.parse(inicio)
-		hora_fin  = Date.parse(fin)
+		hora_inicio  = DateTime.parse(inicio)
+		hora_fin  = DateTime.parse(fin)
 			
 		intervalo = ((hora_fin - hora_inicio) / HORAS)
 

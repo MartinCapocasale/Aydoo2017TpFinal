@@ -1,4 +1,7 @@
 require_relative './validacion_de_duracion'
+require_relative './gestor_de_recurrencia'
+require_relative './frecuencia'
+require "date"
 
 class Evento
 	attr_accessor :nombre_calendario
@@ -8,6 +11,7 @@ class Evento
 	attr_accessor :fin
 	attr_accessor :recurrencia
 	attr_accessor :nuevo_evento
+	attr_accessor :frecuencia
 	attr_accessor :json_del_evento
 	
 
@@ -19,7 +23,8 @@ class Evento
 		@inicio = inicio
 		@fin = fin
 		@recurrencia = recurrencia
-		@nuevo_evento = Array.new
+		@nuevo_evento = []
+		@frecuencia = Frecuencia.new
 		@json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
 	end
 
@@ -43,8 +48,25 @@ class Evento
 		@fin = finNuevo
 	end	
 
-	def validar_recurrencia(frecuencia)
+	def calcular_recurrencia(gestor_de_recurrencia)
+		una_frecuencia = @frecuencia.set_Frecuencia(gestor_de_recurrencia.obtener_frecuencia)
+		fechaFin = gestor_de_recurrencia.obtener_fecha_fin
+		fechaActual = @inicio
+		hora_ini = @inicio
+		hora_fin = @fin
+		i = 0
+    	j = 1
+   	    while fechaActual <= fechaFin do
+   	    	@nuevo_evento[i] = fechaActual
+   	    	@nuevo_evento = hora_fin
+   	    	fechaActual = una_frecuencia.calcular(fechaActual)
+   	    	hora_fin = una_frecuencia.calcular(hora_fin)
+   	    	i = i + 2
+   	    	j = j + 2
+   	    end
+	end
 
-	end	
-
+	def obtenerEvento
+		return @nuevo_evento
+	end
 end	
