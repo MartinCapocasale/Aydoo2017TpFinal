@@ -3,7 +3,7 @@ class Frecuencia
 	attr_accessor :tiposDeRecurrencia
 
 	def initialize()
-   	    @tiposDeRecurrencia = {"diaria"=> FrecuenciaDiaria.new, 
+   	    @tiposDeRecurrencia = {"diaria" => FrecuenciaDiaria.new, 
                               "semanal" => FrecuenciaSemanal.new,
                               "mensual" => FrecuenciaMensual.new,
                               "anual" => FrecuenciaAnual.new

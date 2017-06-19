@@ -160,16 +160,20 @@ class Archivo
 	  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
 	  #si usuario envio calendario y existe
 	  if (!params.nil? && !params['calendario'].nil? && !params['id'].nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_modificar))
-	    #creo nuevo evento con los parametros de json
-	    nuevo_evento = Evento.new params['calendario'].downcase, params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
-	    #abro el archivo calendario con el nombre recibido por json y guardo el evento
-	    escribir(nombre_calendario_a_modificar,nuevo_evento.mostrar_contenido())
-	    #devuelvo valor para status
-	    return 200
-	  else
-	    #devuelvo valor para status
-	    return 400
-	  end
+	    #verifico que no exista id dentro del calendario
+	    if (busca_contenido_por_id_y_lo_muestra(nombre_calendario_a_modificar, @campo_id_en_json_evento, params['id']) == '')
+		    #creo nuevo evento con los parametros de json
+		    nuevo_evento = Evento.new params['calendario'].downcase, params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
+		    #abro el archivo calendario con el nombre recibido por json y guardo el evento
+		    escribir(nombre_calendario_a_modificar,nuevo_evento.mostrar_contenido())
+		    #devuelvo valor para status
+		    return 200
+	  	#end
+		  else
+		    #devuelvo valor para status
+		    return 400
+		  end
+		end  
 	end
 
 	def mostrar_eventos_de_un_calendario(params)
