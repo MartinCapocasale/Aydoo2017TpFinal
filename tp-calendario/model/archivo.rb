@@ -280,6 +280,24 @@ class Archivo
 	  end
 	end
 
+	def modificar_un_evento_por_id(params)
+		#inicializo variable por si no se pasa el calendario, para modificar evento en todos los calendarios
+	  nombre_calendario_a_modificar = ''
+	  #tomo de parametros ingresados el nombre del calendario a modificar
+	  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
+	  #tomo de parametros ingresados el nombre del calendario a modificar
+	  id_evento_a_modificar = params['id'].downcase unless params['id'].nil?
+	  #es obligatorio ingresar el id del evento
+	  if (!id_evento_a_modificar.nil?)
+	    busca_contenido_por_id_y_modifica(nombre_calendario_a_modificar, @campo_id_en_json_evento, id_evento_a_modificar, params)
+	    #devuelvo valor para status
+	    return 200
+	  else
+	    #devuelvo valor para status
+	    return 400
+	  end
+	end
+
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)

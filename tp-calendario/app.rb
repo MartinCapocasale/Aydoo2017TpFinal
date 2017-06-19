@@ -330,6 +330,8 @@ end
 put '/eventos' do
   #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read) unless request.body.nil?
+  status calendario.modificar_un_evento_por_id(params)
+=begin
   #inicializo variable por si no se pasa el calendario, para modificar evento en todos los calendarios
   nombre_calendario_a_modificar = ''
   #tomo de parametros ingresados el nombre del calendario a modificar
@@ -345,4 +347,5 @@ put '/eventos' do
     #devuelvo status
     status 400
   end
+=end  
 end
