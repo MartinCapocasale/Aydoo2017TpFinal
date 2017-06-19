@@ -1,1 +1,3 @@
-{"calendario":"calendario2","id":"evento1","nombre":"evento uno","inicio":"2017-07-30T11:00:00-03:00","fin":"2017-07-31"}
+{"calendario":"calendario2","id":"evento2","nombre":"evento uno","inicio":"2017-07-30T11:00:00-03:00","fin":"2017-07-31"}
+{"calendario":"calendario2","id":"evento1","nombre":"evento uno","inicio":"2017-07-30T18:00:00-03:00","fin":"2017-07-31"}
+{"calendario":"calendario2","id":"evento3","nombre":"evento uno","inicio":"2017-07-30T18:00:00-03:00","fin":"2017-07-31"}

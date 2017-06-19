@@ -1,3 +1,5 @@
+require_relative './evento.rb'
+
 class Archivo
 
 	#defino variable que contendra el nombre de archivo con lista de calendarios
@@ -114,8 +116,6 @@ class Archivo
 	  if (!nombre_calendario_a_eliminar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar))
 	    #borro el archivo del calendario indicado por el usuario
 	    borrar_archivo(nombre_calendario_a_eliminar)
-	    #creo un nuevo objeto archivo que voy a utilizar
-	    ##actualizar_lista_calendarios = Archivo.new
 	    #busco el calendario en la lista y lo elimino
 	    busca_contenido_y_elimina(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar)
 	    #devuelvo valor para status
@@ -338,17 +338,17 @@ class Archivo
 	def busca_contenido_por_id_y_lo_muestra(nombre_de_archivo, identificador_a_buscar, contenido_del_identificador)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)
-		f = File.open(nombre_de_archivo, "r")
-		f.each_line { |line|
-		  linea_sin_new_line = line.chomp
-		  if (linea_sin_new_line != '')
-			json_de_evento = JSON.parse(linea_sin_new_line)
-			if (json_de_evento[identificador_a_buscar] == contenido_del_identificador)
-			  contenido += linea_sin_new_line
-			end
-		  end  
-		}
-		f.close
+			f = File.open(nombre_de_archivo, "r")
+			f.each_line { |line|
+			  linea_sin_new_line = line.chomp
+			  if (linea_sin_new_line != '')
+					json_de_evento = JSON.parse(linea_sin_new_line)
+					if (json_de_evento[identificador_a_buscar] == contenido_del_identificador)
+					  contenido += linea_sin_new_line
+					end
+			  end  
+			}
+			f.close
 	  end
 	  return contenido
 	end
@@ -358,25 +358,25 @@ class Archivo
 	  #si nombre_de_archivo tiene contenido se busca el calendario indicado por el usuario
 	  if (nombre_de_archivo != '')
 	    if File.file?(nombre_de_archivo)
-		  f = File.open(nombre_de_archivo, "r")
-		  f.each_line { |line|
-		    linea_sin_new_line = line.chomp
-		    if (linea_sin_new_line != '')
-			  json_de_evento = JSON.parse(linea_sin_new_line)
-			  #pregunto a cada evento si es el buscado
-			  if (json_de_evento[identificador_a_buscar] = contenido_del_identificador)
-			    #creo nuevo evento con los parametros de json del evento encontrado
-			    evento_encontrado = Evento.new json_de_evento['calendario'].downcase, json_de_evento['id'].downcase, json_de_evento['nombre'].downcase, json_de_evento['inicio'], json_de_evento['fin'], json_de_evento['recurrencia']
-			    #creo nuevo evento con los parametros de json del evento modificado enviado por usuario
-			    nuevo_evento = Evento.new json_con_nuevos_datos['calendario'].downcase, json_con_nuevos_datos['id'].downcase, json_con_nuevos_datos['nombre'], json_con_nuevos_datos['inicio'], json_con_nuevos_datos['fin'], json_con_nuevos_datos['recurrencia']
-			    #abro el archivo calendario con el nombre recibido por json y guardo el evento
-			    contenido += evento_encontrado.actualizar_evento(nuevo_evento)
-			  else
-			  	contenido += line
-			  end
-		    end  
-		  }
-		  f.close
+			  f = File.open(nombre_de_archivo, "r")
+			  f.each_line { |line|
+			    linea_sin_new_line = line.chomp
+			    if (linea_sin_new_line != '')
+					  json_de_evento = JSON.parse(linea_sin_new_line)
+					  #pregunto a cada evento si es el buscado
+					  if (json_de_evento[identificador_a_buscar] = contenido_del_identificador)
+					    #creo nuevo evento con los parametros de json del evento encontrado
+					    evento_encontrado = Evento.new json_de_evento['calendario'].downcase, json_de_evento['id'].downcase, json_de_evento['nombre'].downcase, json_de_evento['inicio'], json_de_evento['fin'], json_de_evento['recurrencia']
+					    #creo nuevo evento con los parametros de json del evento modificado enviado por usuario
+					    nuevo_evento = Evento.new json_con_nuevos_datos['calendario'].downcase, json_con_nuevos_datos['id'].downcase, json_con_nuevos_datos['nombre'], json_con_nuevos_datos['inicio'], json_con_nuevos_datos['fin'], json_con_nuevos_datos['recurrencia']
+					    #abro el archivo calendario con el nombre recibido por json y guardo el evento
+					    contenido += evento_encontrado.actualizar_evento(nuevo_evento)
+					  else
+					  	contenido += line
+					  end
+			    end  
+			  }
+			  f.close
 	    end
 		borrar_contenido_anterior_y_escribir(nombre_de_archivo, contenido)
 	  #si nombre_de_archivo llega vacio es porque el evento se debe modificar en todos los calendarios
