@@ -105,6 +105,24 @@ class Archivo
       return json_a_mostrar
 	end
 
+	def eliminar_calendario(params)
+	  #paso nombre de calendario ingresado por el usuario a variable
+	  nombre_calendario_a_eliminar = params[:nombre].downcase unless params.nil?
+	  if (!nombre_calendario_a_eliminar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar))
+	    #borro el archivo del calendario indicado por el usuario
+	    borrar_archivo(nombre_calendario_a_eliminar)
+	    #creo un nuevo objeto archivo que voy a utilizar
+	    ##actualizar_lista_calendarios = Archivo.new
+	    #busco el calendario en la lista y lo elimino
+	    busca_contenido_y_elimina(nombre_archivo_lista_calendarios, nombre_calendario_a_eliminar)
+	    #devuelvo valor para status
+	    return 200
+	  else
+	    #devuelvo valor para status
+	    return 400
+	  end		
+	end
+
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)

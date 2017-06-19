@@ -57,6 +57,8 @@ end
 
 #funcion para borrar un calendario
 delete '/calendarios/:nombre' do
+  status calendario.eliminar_calendario(params)
+=begin
   #paso nombre de calendario ingresado por el usuario a variable
   nombre_calendario_a_eliminar = params[:nombre].downcase
   if (!nombre_calendario_a_eliminar.nil?)
@@ -76,6 +78,7 @@ delete '/calendarios/:nombre' do
     #devuelvo status
     status 400
   end
+=end
 end
 
 #funcion para buscar si existe un calendario
