@@ -12,6 +12,8 @@ class Archivo
 	  @calendarios_existentes = leer(@nombre_archivo_lista_calendarios)
 	end  
 
+#Comienzan las funciones especificas de Archivos
+
 	def escribir(nombre_de_archivo, texto_a_escribir)
 	  if File.file?(nombre_de_archivo)
 		f = File.open(nombre_de_archivo, "a") { |f|
@@ -69,6 +71,8 @@ class Archivo
 	  return existe_en_archivo
 	end
 
+#Comienzan las funciones especificas de los calendarios
+
 	def crear_nuevo_calendario(json)
 	  #tomo de parametros ingresados el nombre del calendario a crear
 	  nombre_calendario_a_crear = json['nombre'].downcase unless json['nombre'].nil?
@@ -84,6 +88,21 @@ class Archivo
 	    #devuelvo valor para status
 	    return 400
 	  end 
+	end
+
+	def mostrar_todos_los_calendarios_existentes_como_json()
+	  #inicializo variable para mostrar al menos contenido vacio si no hay calendarios
+      json_a_mostrar = ''
+      if (calendarios_existentes.size > 1)
+        calendarios_existentes.each_line { |line|
+          if (!line.chomp.nil? && line.chomp != '')
+            nombre_calendario_a_json = {'nombre' => line.chomp}
+            json_a_mostrar += JSON[nombre_calendario_a_json]
+          end
+        }
+      end
+      #devuelvo json de calendarios
+      return json_a_mostrar
 	end
 
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)

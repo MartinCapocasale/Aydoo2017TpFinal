@@ -50,18 +50,7 @@ get '/calendarios' do
     #lista_de_calendarios = Archivo.new
     #guardo el contenido del archivo que guarda la lista de calendarios existentes
     #calendarios_existentes = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
-    #convierto el texto a json, esto tiene que ir en un presentador
-    json_a_mostrar = ''
-    if (calendarios_existentes.size > 1)
-      calendarios_existentes.each_line { |line|
-        if (!line.chomp.nil? && line.chomp != '')
-          nombre_calendario_a_json = {'nombre' => line.chomp}
-          json_a_mostrar += JSON[nombre_calendario_a_json]
-        end
-      }
-      #muestra lista de calendarios
-      body json_a_mostrar
-    end
+    body calendario.mostrar_todos_los_calendarios_existentes_como_json()
     #devuelvo status
     status 200
 end
