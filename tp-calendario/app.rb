@@ -181,6 +181,9 @@ end
 get '/eventos' do
   #si se especifica un calendario se mostraran los eventos del mismo
   if (!params[:calendario].nil?)
+    body calendario.mostrar_eventos_de_un_calendario(params)
+    status calendario.status_de_mostrar_eventos_de_un_calendario(params)
+=begin
     #paso nombre de calendario ingresado por el usuario a variable
     nombre_calendario_a_mostrar = params[:calendario].downcase
     #nombre de archivo que tiene la lista de calendarios
@@ -200,6 +203,7 @@ get '/eventos' do
       #devuelvo status
       status 400
     end
+=end
   #si no se especifica ningun calendario se mostraran todos los eventos de todos los calendarios
   elsif (params[:calendario].nil?)
   #elsif (params[:calendario].nil? && params[:id].nil?)

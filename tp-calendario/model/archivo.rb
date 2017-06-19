@@ -169,6 +169,33 @@ class Archivo
 	  end
 	end
 
+	def mostrar_eventos_de_un_calendario(params)
+    #inicializo variable para mostrar contenido vacio en caso de que no exista calendario
+    texto_a_mostrar = ''
+    #paso nombre de calendario ingresado por el usuario a variable
+    nombre_calendario_a_mostrar = params[:calendario].downcase unless params.nil?
+    #si el calendario indicado existe
+    if (!nombre_calendario_a_mostrar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+      #guardo el contenido del archivo que guarda la lista de calendarios existentes
+      texto_a_mostrar = leer(nombre_calendario_a_mostrar)
+    end
+    #devuelvo lista de eventos
+    return texto_a_mostrar
+	end
+
+	def status_de_mostrar_eventos_de_un_calendario(params)
+    #paso nombre de calendario ingresado por el usuario a variable
+    nombre_calendario_a_mostrar = params[:calendario].downcase unless params.nil?
+    #si el calendario indicado existe
+    if (!nombre_calendario_a_mostrar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+      #devuelvo valor para status
+      return 200
+    else
+      #devuelvo valor para status
+      return 400
+    end
+	end
+
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)
