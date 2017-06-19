@@ -1,38 +1,29 @@
-require 'date'
-require_relative './frecuencia'
-require_relative './evento'
+require_relative '../model/evento'
 
-class GestorDeRecurrencia
+
+class GestorDeRecurrencia < Evento
 
 	attr_accessor :frecuencia
 	attr_accessor :fechaFin	
-	attr_accessor :nuevo_evento
 	
-	def initialize (una_frecuencia,una_fechaFin)
-			@frecuencia = una_frecuencia
-			@fechaFin = DateTime.parse(una_fechaFin)
-			@nuevo_evento = []
-			
-
+	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia, frecuencia, fin_recurrencia)
+	    super(nombre_calendario, id, nombre, inicio, fin, recurrencia)
+	    
+	    @frecuencia = frecuencia
+	    @fechaFin = fin_recurrencia
 	end
 
-	def calcular_recurrencia(gestor_de_recurrencia)
-		  una_frecuencia = @frecuencia.set_Frecuencia(gestor_de_recurrencia.obtener_frecuencia)
-		  fechaFin = gestor_de_recurrencia.obtener_fecha_fin
-		  fechaActual = evento.get_fecha_inicio()
-		  hora_ini = evento.get_fecha_inicio()
-		  hora_fin = evento.get_fecha_fin()
-		  i = 0
-	      j = 1
-	   	  while fechaActual <= fechaFin do
-	   	    @nuevo_evento[i] = fechaActual
-	   	    @nuevo_evento[j] = hora_fin
-	   	    fechaActual = una_frecuencia.calcular(fechaActual)
-	   	    hora_fin = una_frecuencia.calcular(hora_fin)
-	   	    i = i + 2
-	   	    j = j + 2
-		  end
-	end
+    def obtener_intervalo
+      intervalos = []
+      inicio = @inicio
+      fin = @fin
+      while inicio <= @fechaFin do
+      	intervalos << (inicio..fin)
+      	inicio += @frecuencia.obtener_frecuencia
+      	fin += @frecuencia.obtener_frecuencia
+      end
+    intervalos
+    end
 
 	def obtener_frecuencia
 	  	return @frecuencia
@@ -42,7 +33,6 @@ class GestorDeRecurrencia
 	    return @fechaFin
 	end
 
-	def obtenerEvento
-	  return @nuevo_evento
-	end
+	
+
 end

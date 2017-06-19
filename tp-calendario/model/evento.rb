@@ -1,6 +1,6 @@
 require_relative './validacion_de_duracion'
 require_relative './frecuencia'
-require "date"
+
 
 class Evento
 	attr_reader :nombre_calendario
@@ -15,7 +15,7 @@ class Evento
 
 	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
 	  #cambiar esto a snake case
-	  ValidacionDeDuracion.new(inicio, fin) unless (!inicio || !fin) 
+	  #ValidacionDeDuracion.new(inicio, fin) unless (!inicio || !fin) 
  	  @nombre_calendario = nombre_calendario
 	  @id = id
 	  @nombre = nombre
