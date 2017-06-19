@@ -123,13 +123,13 @@ class Archivo
 	  end		
 	end
 
-	def busco_calendario_por_su_nombre(params)
+	def buscar_calendario_por_su_nombre(params)
 	  #inicializo la variable para mostrar contenido vacio si no existe calendario
 	  json_a_mostrar = ''
 	  #paso nombre de calendario ingresado por el usuario a variable
 	  nombre_calendario_a_mostrar = params[:nombre].downcase unless params.nil?
 	  #si existe el calendario
-	  if (!nombre_calendario_a_mostrar.nil? & verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+	  if (!nombre_calendario_a_mostrar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
 	    #preparo el json con el nombre del calendario, ya verificada su existencia
 	    json_a_devolver = {'nombre' => nombre_calendario_a_mostrar}
 	    #convierte el string a json
@@ -143,7 +143,7 @@ class Archivo
 	  #paso nombre de calendario ingresado por el usuario a variable
 	  nombre_calendario_a_mostrar = params[:nombre].downcase unless params.nil?
 	  #si existe el calendario
-	  if (!nombre_calendario_a_mostrar.nil? & verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+	  if (!nombre_calendario_a_mostrar.nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
 	    #devuelvo valor para status
 	    return 200
 	  else
@@ -152,6 +152,22 @@ class Archivo
 	  end
 	end	
 
+	def agregar_un_evento(params)
+	  #guardo el nombre del calendario donde se quiere crear el evento
+	  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
+	  #si usuario envio calendario y existe
+	  if (!params.nil? && !params['calendario'].nil? && !params['id'].nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_modificar))
+	    #creo nuevo evento con los parametros de json
+	    nuevo_evento = Evento.new params['calendario'].downcase, params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
+	    #abro el archivo calendario con el nombre recibido por json y guardo el evento
+	    escribir(nombre_calendario_a_modificar,nuevo_evento.mostrar_contenido())
+	    #devuelvo valor para status
+	    return 200
+	  else
+	    #devuelvo valor para status
+	    return 400
+	  end
+	end
 
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''

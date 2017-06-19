@@ -16,7 +16,7 @@ campo_id_en_json_evento = 'id'
 #funcion para crear un calendario
 post '/calendarios' do
   #paso json ingresado por usuario a variable
-  params = JSON.parse(request.body.read)
+  params = JSON.parse(request.body.read) unless request.body.nil?
   #devuelvo el status resultante del intento de creacion de calendario
   status calendario.crear_nuevo_calendario(params)
 =begin
@@ -83,7 +83,7 @@ end
 
 #funcion para buscar si existe un calendario
 get '/calendarios/:nombre' do
-  body calendario.busco_calendario_por_su_nombre(params)
+  body calendario.buscar_calendario_por_su_nombre(params)
   status calendario.status_de_buscar_calendario_por_su_nombre(params)
 =begin
   #paso nombre de calendario ingresado por el usuario a variable
@@ -110,6 +110,8 @@ end
 post '/eventos' do
   #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read) unless request.body.nil?
+  status calendario.agregar_un_evento(params)
+=begin
   #guardo el nombre del calendario donde se quiere crear el evento
   nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
   #creo un nuevo objeto archivo que voy a utilizar  
@@ -125,6 +127,7 @@ post '/eventos' do
     #devuelvo status
     status 400
   end
+=end
 end
 
 =begin
