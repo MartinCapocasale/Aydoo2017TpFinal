@@ -17,14 +17,11 @@ campo_id_en_json_evento = 'id'
 post '/calendarios' do
   #paso json ingresado por usuario a variable
   params = JSON.parse(request.body.read)
-  #nombre de archivo que tiene la lista de calendarios
-  #nombre_archivo_lista_calendarios = 'lista_de_calendarios'
+  #devuelvo el status resultante del intento de creacion de calendario
+  status calendario.crear_nuevo_calendario(params)
+=begin
   #tomo de parametros ingresados el nombre del calendario a crear
   nombre_calendario_a_crear = params['nombre'].downcase unless params['nombre'].nil?
-  #creo un nuevo objeto archivo que voy a utilizar
-  ##calendario_nuevo = Archivo.new
-  #creo un nuevo objeto archivo que voy a utilizar
-  ##lista_de_calendarios = Archivo.new
   #si existen los parametros pasados por usuario y si no existe ya el calendario en la lista
   if (!params.nil? && !calendario.verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_crear))
     #agrego nuevo calendario dentro de la lista de calendarios
@@ -37,6 +34,7 @@ post '/calendarios' do
     #devuelvo status
     status 400
   end
+=end
 end
 
 #to-do sacar variable lista de calendarios y definirla solo 1 vez
