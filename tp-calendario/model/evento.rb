@@ -1,5 +1,4 @@
 require_relative './validacion_de_duracion'
-require_relative './gestor_de_recurrencia'
 require_relative './frecuencia'
 require "date"
 
@@ -10,12 +9,11 @@ class Evento
 	attr_accessor :inicio
 	attr_accessor :fin
 	attr_accessor :recurrencia
-	attr_accessor :nuevo_evento
 	attr_accessor :frecuencia
 	attr_accessor :json_del_evento
 	
 
-	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
+	def initialize(nombre_calendario, id, nombre, inicio, fin)
 	  #cambiar esto a snake case
 	  ValidacionDeDuracion.new(inicio, fin) unless (!inicio || !fin) 
  	  @nombre_calendario = nombre_calendario
@@ -24,7 +22,6 @@ class Evento
 	  @inicio = inicio
 	  @fin = fin
 	  @recurrencia = recurrencia
-	  @nuevo_evento = Array.new
 	  @json_del_evento = {'calendario' => @nombre_calendario, 'id' => @id, 'nombre' => @nombre, 'inicio' => @inicio, 'fin' => @fin}
 	end
 
