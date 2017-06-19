@@ -160,8 +160,8 @@ class Calendario
 	  nombre_calendario_a_modificar = params['calendario'].downcase unless params['calendario'].nil?
 	  #si usuario envio calendario y existe
 	  if (!params.nil? && !params['calendario'].nil? && !params['id'].nil? && verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_modificar))
-	    #verifico que no exista id dentro del calendario
-	    if (busca_contenido_por_id_y_lo_muestra(nombre_calendario_a_modificar, @campo_id_en_json_evento, params['id']) == '')
+	    #verifico que no exista id dentro del calendario y verifico que no se solape la fecha de inicio del nuevo evento con ninguno existente
+	    if (busca_contenido_por_id_y_lo_muestra(nombre_calendario_a_modificar, @campo_id_en_json_evento, params['id']) == '' && verifica_solapamiento_de_eventos(nombre_calendario_a_modificar, params['inicio'], params['fin']) == '')
 		    #creo nuevo evento con los parametros de json
 		    nuevo_evento = Evento.new params['calendario'].downcase, params['id'], params['nombre'], params['inicio'], params['fin'], params['recurrencia']
 		    #abro el archivo calendario con el nombre recibido por json y guardo el evento
@@ -219,7 +219,7 @@ class Calendario
             #evento_iterado = line.chomp
             if (!line2.nil?)
               #guardo el contenido de cada evento
-              texto_a_mostrar += line2.chomp
+              texto_a_mostrar += line2
             end
           }
         end
@@ -348,12 +348,52 @@ class Calendario
 			  if (linea_sin_new_line != '')
 					json_de_evento = JSON.parse(linea_sin_new_line)
 					if (json_de_evento[identificador_a_buscar] == contenido_del_identificador)
-					  contenido += linea_sin_new_line
+					  contenido += line
 					end
 			  end  
 			}
 			f.close
 	  end
+	  return contenido
+	end
+
+	def verifica_solapamiento_de_eventos(nombre_de_archivo, inicio_evento_nuevo, fin_evento_nuevo)
+	  contenido = ''
+		#si no se paso 
+		if (!inicio_evento_nuevo.nil? && !fin_evento_nuevo.nil?)
+		  if File.file?(nombre_de_archivo)
+				f = File.open(nombre_de_archivo, "r")
+				f.each_line { |line|
+				  linea_sin_new_line = line.chomp
+				  if (linea_sin_new_line != '')
+						json_de_evento = JSON.parse(linea_sin_new_line)
+						#condicion de solapamiento1
+						#evento viejo   ---
+						#evento nuevo  ---
+						if ( (fin_evento_nuevo > json_de_evento['inicio'] && fin_evento_nuevo < json_de_evento['fin']) ||
+						#condicion de solapamiento2
+						#evento viejo  ---
+						#evento nuevo   ---
+									(inicio_evento_nuevo > json_de_evento['inicio'] && inicio_evento_nuevo < json_de_evento['fin']) ||
+						#condicion de solapamiento3
+						#evento viejo  ---
+						#evento nuevo  ---
+										(inicio_evento_nuevo == json_de_evento['inicio'] && fin_evento_nuevo == json_de_evento['fin']) ||
+						#condicion de solapamiento4
+						#evento viejo   ---
+						#evento nuevo  -----
+										(inicio_evento_nuevo < json_de_evento['inicio'] && fin_evento_nuevo > json_de_evento['fin']) ||
+						#condicion de solapamiento5
+						#evento viejo  -----
+						#evento nuevo   ---
+										(inicio_evento_nuevo > json_de_evento['inicio'] && fin_evento_nuevo < json_de_evento['fin']) )
+						  contenido += linea_sin_new_line
+						end
+				  end  
+				}
+				f.close
+		  end
+		end  
 	  return contenido
 	end
 

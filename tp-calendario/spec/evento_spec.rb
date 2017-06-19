@@ -6,7 +6,7 @@ require_relative '../model/evento'
 describe 'Evento' do 
 
 	before do
-    	@evento = Evento.new "CalendarioDeTrabajo", "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00"
+    	@evento = Evento.new "CalendarioDeTrabajo", "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "no"
   	end
 
 	it  'es posible crear un evento con id=05 ' do

@@ -13,7 +13,7 @@ class Evento
 	attr_accessor :json_del_evento
 	
 
-	def initialize(nombre_calendario, id, nombre, inicio, fin)
+	def initialize(nombre_calendario, id, nombre, inicio, fin, recurrencia)
 	  #cambiar esto a snake case
 	  ValidacionDeDuracion.new(inicio, fin) unless (!inicio || !fin) 
  	  @nombre_calendario = nombre_calendario
