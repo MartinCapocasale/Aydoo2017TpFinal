@@ -294,6 +294,8 @@ end
 
 #funcion para borrar un evento
 delete '/eventos/:id' do
+  status calendario.eliminar_evento_por_id(params)
+=begin
   #paso nombre de calendario ingresado por el usuario a variable
   nombre_evento_a_eliminar = params[:id].downcase
   if (!nombre_evento_a_eliminar.nil?)
@@ -321,6 +323,7 @@ delete '/eventos/:id' do
     #devuelvo status
     status 400
   end
+=end  
 end
 
 #funcion para modificar un evento segun el id solicitado
