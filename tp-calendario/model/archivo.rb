@@ -123,6 +123,36 @@ class Archivo
 	  end		
 	end
 
+	def busco_calendario_por_su_nombre(params)
+	  #inicializo la variable para mostrar contenido vacio si no existe calendario
+	  json_a_mostrar = ''
+	  #paso nombre de calendario ingresado por el usuario a variable
+	  nombre_calendario_a_mostrar = params[:nombre].downcase unless params.nil?
+	  #si existe el calendario
+	  if (!nombre_calendario_a_mostrar.nil? & verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+	    #preparo el json con el nombre del calendario, ya verificada su existencia
+	    json_a_devolver = {'nombre' => nombre_calendario_a_mostrar}
+	    #convierte el string a json
+	    json_a_mostrar = JSON[json_a_devolver]
+	  end
+	  #devuelve el contenido a mostrar
+	  return json_a_mostrar
+	end	
+
+	def status_de_buscar_calendario_por_su_nombre(params)
+	  #paso nombre de calendario ingresado por el usuario a variable
+	  nombre_calendario_a_mostrar = params[:nombre].downcase unless params.nil?
+	  #si existe el calendario
+	  if (!nombre_calendario_a_mostrar.nil? & verificar_si_existe(nombre_archivo_lista_calendarios, nombre_calendario_a_mostrar)) 
+	    #devuelvo valor para status
+	    return 200
+	  else
+	    #devuelvo valor para status
+	    return 400
+	  end
+	end	
+
+
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)

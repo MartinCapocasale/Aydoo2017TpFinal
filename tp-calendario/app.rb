@@ -83,6 +83,9 @@ end
 
 #funcion para buscar si existe un calendario
 get '/calendarios/:nombre' do
+  body calendario.busco_calendario_por_su_nombre(params)
+  status calendario.status_de_buscar_calendario_por_su_nombre(params)
+=begin
   #paso nombre de calendario ingresado por el usuario a variable
   nombre_calendario_a_mostrar = params[:nombre].downcase
   #nombre de archivo que tiene la lista de calendarios
@@ -100,6 +103,7 @@ get '/calendarios/:nombre' do
     #devuelvo status
     status 400
   end
+=end  
 end
 
 #funcion para agregar un evento
