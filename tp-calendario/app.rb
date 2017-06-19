@@ -253,9 +253,11 @@ get '/eventos' do
   end
 end
 
-
 #funcion para mostrar un evento segun el id solicitado
 get '/eventos/:id' do
+  body calendario.mostrar_evento_segun_id(params)
+  status calendario.status_de_mostrar_evento_segun_id(params)
+=begin
   #paso nombre de calendario ingresado por el usuario a variable
   nombre_evento_a_mostrar = params[:id].downcase
   if (!nombre_evento_a_mostrar.nil?)
@@ -287,6 +289,7 @@ get '/eventos/:id' do
     #devuelvo status
     status 400
   end
+=end
 end
 
 #funcion para borrar un evento

@@ -3,6 +3,7 @@ class Archivo
 	#defino variable que contendra el nombre de archivo con lista de calendarios
 	attr_reader :nombre_archivo_lista_calendarios
 	attr_accessor :calendarios_existentes
+	attr_reader :campo_id_en_json_evento
 
 	def initialize
 	  #defino el nombre de archivo que tiene la lista de calendarios
@@ -10,6 +11,8 @@ class Archivo
 	  @nombre_archivo_lista_calendarios = "lista_de_calendarios"
 	  #guardo el contenido del archivo que contiene la lista de los calendarios existentes
 	  @calendarios_existentes = leer(@nombre_archivo_lista_calendarios)
+	  #defino nombre del campo id dentro del json que conforma cada evento
+		@campo_id_en_json_evento = 'id'
 	end  
 
 #Comienzan las funciones especificas de Archivos
@@ -203,25 +206,54 @@ class Archivo
     #verifica que exista al menos un calendario para iterar
     if (calendarios_existentes.size > 1)
       calendarios_existentes.each_line { |line|
-        #if (!line.nil?)
-          un_calendario = line.chomp
-          #guardo el contenido del archivo que guarda la lista de calendarios existentes
-          lista_de_eventos = leer(un_calendario)
-          if (!lista_de_eventos.nil? && lista_de_eventos.size > 1)
-            #recorro cada evento de un calendario existente
-            lista_de_eventos.each_line { |line2|
-              #evento_iterado = line.chomp
-              if (!line2.nil?)
-                #guardo el contenido de cada evento
-                texto_a_mostrar += line2.chomp
-              end
-            }
-          end
-        #end  
+        un_calendario = line.chomp
+        #guardo el contenido del archivo que guarda la lista de calendarios existentes
+        lista_de_eventos = leer(un_calendario)
+        if (!lista_de_eventos.nil? && lista_de_eventos.size > 1)
+          #recorro cada evento de un calendario existente
+          lista_de_eventos.each_line { |line2|
+            #evento_iterado = line.chomp
+            if (!line2.nil?)
+              #guardo el contenido de cada evento
+              texto_a_mostrar += line2.chomp
+            end
+          }
+        end
       }
     end
     #devuelve lista de eventos de todos los calendarios
     return texto_a_mostrar
+	end
+
+	def mostrar_evento_segun_id(params)
+		#inicializo variable para mostrar vacio si evento no existe
+		texto_a_mostrar = ''
+		#paso nombre de calendario ingresado por el usuario a variable
+	  nombre_evento_a_mostrar = params[:id].downcase unless params.nil?
+	  if (!nombre_evento_a_mostrar.nil?)
+	    #recorro cada calendario de la lista de calendarios existentes
+	    calendarios_existentes.each_line { |line|
+	      if (!line.nil?)
+	        un_calendario = line.chomp
+	        #busco el evento en la lista y lo elimino
+	        texto_a_mostrar += busca_contenido_por_id_y_lo_muestra(un_calendario, @campo_id_en_json_evento, nombre_evento_a_mostrar)
+	      end
+	    }
+	  end
+	  #devuelvo los eventos encontrados con el identificador solicitado
+	  return texto_a_mostrar
+	end
+
+	def status_de_mostrar_evento_segun_id(params)
+		#paso nombre de calendario ingresado por el usuario a variable
+	  nombre_evento_a_mostrar = params[:id].downcase unless params.nil?
+	  if (!nombre_evento_a_mostrar.nil? && mostrar_evento_segun_id(params) != '')
+	    #devuelvo valor para status
+	    return 200
+	  else
+	    #devuelvo valor para status
+	    return 400
+	  end
 	end
 
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
