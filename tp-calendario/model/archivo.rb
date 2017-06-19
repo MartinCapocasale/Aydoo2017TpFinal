@@ -196,6 +196,34 @@ class Archivo
     end
 	end
 
+	def mostrar_eventos_de_todos_los_calendarios(params)
+	  #preparo la variable para que al menos exista contenido vacio para mostrar
+    texto_a_mostrar = ''
+    #recorro cada calendario de la lista de calendarios existentes
+    #verifica que exista al menos un calendario para iterar
+    if (calendarios_existentes.size > 1)
+      calendarios_existentes.each_line { |line|
+        #if (!line.nil?)
+          un_calendario = line.chomp
+          #guardo el contenido del archivo que guarda la lista de calendarios existentes
+          lista_de_eventos = leer(un_calendario)
+          if (!lista_de_eventos.nil? && lista_de_eventos.size > 1)
+            #recorro cada evento de un calendario existente
+            lista_de_eventos.each_line { |line2|
+              #evento_iterado = line.chomp
+              if (!line2.nil?)
+                #guardo el contenido de cada evento
+                texto_a_mostrar += line2.chomp
+              end
+            }
+          end
+        #end  
+      }
+    end
+    #devuelve lista de eventos de todos los calendarios
+    return texto_a_mostrar
+	end
+
 	def busca_contenido_y_elimina(nombre_de_archivo, contenido_a_eliminar)
 	  contenido = ''
 	  if File.file?(nombre_de_archivo)

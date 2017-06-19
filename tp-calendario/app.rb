@@ -219,6 +219,8 @@ get '/eventos' do
     ##calendarios_existentes = lista_de_calendarios.leer(nombre_archivo_lista_calendarios)
     #creo un nuevo objeto archivo que voy a utilizar
     ##calendario = Archivo.new
+    body calendario.mostrar_eventos_de_todos_los_calendarios(params)
+=begin    
     #preparo la variable para que al menos exista contenido vacio para mostrar
     texto_a_mostrar = ''
     #recorro cada calendario de la lista de calendarios existentes
@@ -244,6 +246,8 @@ get '/eventos' do
     end
     #muestra lista de eventos del calendario solicitado
     body texto_a_mostrar
+=end
+
     #devuelvo status
     status 200
   end
