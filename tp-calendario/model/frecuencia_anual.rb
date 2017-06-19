@@ -1,12 +1,8 @@
 require_relative '../model/frecuencia'
-require 'date'
 
 class FrecuenciaAnual 
+  def initialize
+    @frecuencia = 365
+  end
 
-	ANIO = 1  	
-
-  	def calcular(una_fecha)
-   		nueva_fecha = una_fecha.next_year(ANIO)
-   		return nueva_fecha
-	end
-end	
+end
