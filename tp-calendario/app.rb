@@ -1,9 +1,9 @@
 require 'sinatra'
 require 'json'
-require_relative './model/archivo.rb'
+require_relative './model/calendario.rb'
 
 #creo un nuevo objeto que voy a utilizar
-calendario = Archivo.new
+calendario = Calendario.new
 
 #funcion para crear un calendario
 post '/calendarios' do

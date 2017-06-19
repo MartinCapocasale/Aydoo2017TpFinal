@@ -3,14 +3,12 @@ require 'date'
 require_relative '../model/evento'
 require_relative '../model/gestor_de_recurrencia'
 
-
 describe 'Evento' do 
 
 	before do
     	@evento = Evento.new "CalendarioDeTrabajo", "05", "Reunion","2017-04-20T15:00:00-03:00","2017-04-20T16:00:00-03:00", "NO"
   		@evento1 = Evento.new "CalendarioDeTrabajo", "1", "Reunion","2017-03-01T18:00:00-03:00","2017-03-01T20:00:00-03:00", "diaria"
   	end
-
 
 	it  'es posible crear un evento con id=05 ' do
 		valor_esperado = "05"
@@ -52,6 +50,7 @@ describe 'Evento' do
 	expect(valor_obtenido).to eq(valor_esperado)
 	
 	end	
+
 =begin
 	it  'es posible crear un evento con frecuencia diaria' do
 		fecha_fin = "2017-03-3T20:00:00-03:00"

@@ -1,6 +1,6 @@
 require_relative './evento.rb'
 
-class Archivo
+class Calendario
 
 	#defino variable que contendra el nombre de archivo con lista de calendarios
 	attr_reader :nombre_archivo_lista_calendarios
